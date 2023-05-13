@@ -10,8 +10,10 @@ class FoundDeviceReceiver (
     private val onDeviceFound: (BluetoothDevice) -> Unit
         ) : BroadcastReceiver() {
 
+    // After device find new bluetooth device, it will help receive data - BroadcastReceiver
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action){
+            // when devices attached
             BluetoothDevice.ACTION_FOUND -> {
                 val device = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     intent.getParcelableExtra(

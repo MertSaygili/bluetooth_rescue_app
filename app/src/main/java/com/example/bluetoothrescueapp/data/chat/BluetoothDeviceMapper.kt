@@ -7,6 +7,7 @@ import com.example.bluetoothrescueapp.domain.BluetoothDeviceDomain
 
 @SuppressLint("MissingPermission")
 fun BluetoothDevice.toBluetoothDeviceDomain() : BluetoothDeviceDomain{
+    // Converts BluetoothDevice instance to BluetoothDeviceDomain
     return BluetoothDeviceDomain(
         name = name,
         address = address
