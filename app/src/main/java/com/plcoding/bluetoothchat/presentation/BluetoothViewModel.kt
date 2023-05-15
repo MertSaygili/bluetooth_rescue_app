@@ -1,8 +1,8 @@
-package com.example.bluetoothrescueapp.presentation
+package com.plcoding.bluetoothchat.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.bluetoothrescueapp.domain.BluetoothController
+import com.plcoding.bluetoothchat.domain.chat.BluetoothController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,9 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class BluetoothViewModel @Inject constructor(
     private val bluetoothController: BluetoothController
-) : ViewModel() {
-    private val _state = MutableStateFlow(BluetoothUiState())
+): ViewModel() {
 
+    private val _state = MutableStateFlow(BluetoothUiState())
     val state = combine(
         bluetoothController.scannedDevices,
         bluetoothController.pairedDevices,

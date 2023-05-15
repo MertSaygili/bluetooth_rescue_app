@@ -1,6 +1,6 @@
-package com.example.bluetoothrescueapp.presentation
+package com.plcoding.bluetoothchat.presentation
 
-import com.example.bluetoothrescueapp.domain.BluetoothDevice
+import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 
 data class BluetoothUiState(
     val scannedDevices: List<BluetoothDevice> = emptyList(),

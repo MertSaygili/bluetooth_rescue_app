@@ -1,4 +1,4 @@
-package com.example.bluetoothrescueapp
+package com.plcoding.bluetoothchat
 
 import org.junit.Test
 
