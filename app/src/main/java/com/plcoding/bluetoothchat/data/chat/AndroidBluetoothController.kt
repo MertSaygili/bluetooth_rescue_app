@@ -14,10 +14,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-@SuppressLint("MissingPermission")
+@SuppressLint("MissingPermission") // Permissions are controlling my hand
+
 class AndroidBluetoothController(
     private val context: Context
 ): BluetoothController {
+
 
     private val bluetoothManager by lazy {
         context.getSystemService(BluetoothManager::class.java)
