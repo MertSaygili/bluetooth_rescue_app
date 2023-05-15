@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">BluetoothChat</string>
+    <string name="appbar_title">Bluetooth Yardım Uygulaması</string>
+    <string name="send_SOS">YARDIM MESAJI GÖNDER</string>
+    <string name="connect_with_devices">DİĞER CİHAZLARLA BAĞLANTI KUR</string>
+    <string name="connected_devices">Bağlantı Kurulmuş Cihazlar</string>
+    <string name="non_connected_devices">bağlantı kurulmuş cihaz bulunmamaktadır</string>
+    <string name="nearby_devices">Yakındaki Cihazlar</string>
+    <string name="connect_bluetooth">bağlantı kur</string>
+    <string name="cancel_bluetooth_connection">bağlantıyı kes</string>
+    <string name="send_message">Bir message yazınız</string>
 </resources>

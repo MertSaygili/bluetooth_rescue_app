@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.presentation.components
+package com.plcoding.bluetoothchat.presentation.components.screen
 
 
 import androidx.compose.foundation.Image
@@ -10,9 +10,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.constants.Strings
 import kotlinx.coroutines.delay
 
 
@@ -20,7 +20,7 @@ import kotlinx.coroutines.delay
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true){
         delay(3000L)
-        navController.navigate("main_screen"){
+        navController.navigate(Strings.home_route_name){
             // after pop up, closes app
             popUpTo(0)
         }
