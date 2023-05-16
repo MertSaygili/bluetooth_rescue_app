@@ -15,11 +15,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.bluetoothchat.presentation.components.Navigation
+import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothViewModel
 import com.plcoding.bluetoothchat.ui.theme.BluetoothChatTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
 
     private val bluetoothManager by lazy {
         applicationContext.getSystemService(BluetoothManager::class.java)
@@ -28,8 +30,8 @@ class MainActivity : ComponentActivity() {
         bluetoothManager?.adapter
     }
 
-    private val isBluetoothEnabled: Boolean
-        get() = bluetoothAdapter?.isEnabled == true
+    private val isBluetoothEnabled: Boolean get() = bluetoothAdapter?.isEnabled == true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,6 @@ class MainActivity : ComponentActivity() {
             val canEnableBluetooth = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 perms[Manifest.permission.BLUETOOTH_CONNECT] == true
             } else true
-
             if(canEnableBluetooth && !isBluetoothEnabled) {
                 enableBluetoothLauncher.launch(
                     Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {
-                    Navigation()
+                    Navigation(context = this)
                 }
             }
         }

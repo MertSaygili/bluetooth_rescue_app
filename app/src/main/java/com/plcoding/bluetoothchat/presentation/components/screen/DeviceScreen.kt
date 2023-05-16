@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
-import com.plcoding.bluetoothchat.presentation.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothUiState
 
 @Composable
 fun DeviceScreen(
