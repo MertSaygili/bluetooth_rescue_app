@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +15,9 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.room.Room
+import com.plcoding.bluetoothchat.database.AppDatabase
+import com.plcoding.bluetoothchat.entities.Message
 import com.plcoding.bluetoothchat.presentation.components.Navigation
 import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothViewModel
 import com.plcoding.bluetoothchat.ui.theme.BluetoothChatTheme

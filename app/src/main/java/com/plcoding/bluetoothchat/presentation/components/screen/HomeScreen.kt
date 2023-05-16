@@ -15,8 +15,11 @@ import androidx.compose.ui.res.stringResource
 import com.plcoding.bluetoothchat.constants.Strings
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.room.Room
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.database.AppDatabase
+import com.plcoding.bluetoothchat.entities.Message
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomButton
 import com.plcoding.bluetoothchat.presentation.components.location_controller.LocationController
@@ -43,6 +46,11 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
 
     val context = LocalContext.current
 
+    val db = Room.databaseBuilder(
+        context,
+        AppDatabase::class.java, Strings.db_name
+    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+
     Scaffold(
         topBar = { CustomAppbar(title = stringResource(id = R.string.appbar_title)) }
     ) { contentPadding ->
@@ -55,6 +63,17 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomButton(text = stringResource(id = R.string.send_SOS), colorId = R.color.error) {
+
+
+                    val messageDao = db.messageDao()
+                    val messages: List<Message> = messageDao.getAll()
+
+                    val message = Message(content="Selam",sender="Omer",isMe=true);
+                    messageDao.insertAll(message)
+                    messageDao.deleteAll();
+
+                    Log.d("Omer",messages.toString())
+
                     when (PackageManager.PERMISSION_GRANTED) {
                         //Check permission
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
