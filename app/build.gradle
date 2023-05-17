@@ -69,4 +69,31 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:2.42"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
+
+    implementation("androidx.room:room-runtime:2.5.1")
+    annotationProcessor("androidx.room:room-compiler:2.5.1")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:2.5.1"
+    // To use Kotlin Symbol Processing (KSP)
+    //ksp "androidx.room:room-compiler:2.5.1"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:2.5.1")
+
+    // optional - RxJava2 support for Room
+    implementation("androidx.room:room-rxjava2:2.5.1")
+
+    // optional - RxJava3 support for Room
+    implementation("androidx.room:room-rxjava3:2.5.1")
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation("androidx.room:room-guava:2.5.1")
+
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:2.5.1")
+
+    // optional - Paging 3 Integration
+    implementation("androidx.room:room-paging:2.5.1")
+
 }
