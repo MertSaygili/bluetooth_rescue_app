@@ -42,7 +42,7 @@ fun DeviceScreen(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Button(onClick = onStartScan) {
-                CustomMediumText(title = stringResource(id = R.string.s))
+                CustomMediumText(title = stringResource(id = R.string.connect_bluetooth))
             }
             Button(onClick = onStopScan) {
                 Text(text = "Stop scan")
