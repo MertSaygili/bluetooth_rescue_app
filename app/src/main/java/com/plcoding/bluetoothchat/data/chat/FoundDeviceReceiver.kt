@@ -9,7 +9,6 @@ import android.os.Build
 class FoundDeviceReceiver(
     private val onDeviceFound: (BluetoothDevice) -> Unit
 ): BroadcastReceiver() {
-
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action) {
             BluetoothDevice.ACTION_FOUND -> {

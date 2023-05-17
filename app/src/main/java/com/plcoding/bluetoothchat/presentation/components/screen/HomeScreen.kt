@@ -35,14 +35,12 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                 // Only approximate location access granted.
             } else -> {
             Log.d("Success", "Suan hicbir yerdeyim 0")
-
             // No location access granted.
             }
         }
     }
 
     val context = LocalContext.current
-
     Scaffold(
         topBar = { CustomAppbar(title = stringResource(id = R.string.appbar_title)) }
     ) { contentPadding ->
@@ -67,7 +65,6 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION)
                             )
-
                             Log.d("Success", "eee kanka")
                         }
                     }

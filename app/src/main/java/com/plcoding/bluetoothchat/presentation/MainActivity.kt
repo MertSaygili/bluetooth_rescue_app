@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
 
     private val isBluetoothEnabled: Boolean get() = bluetoothAdapter?.isEnabled == true
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
