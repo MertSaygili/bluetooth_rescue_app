@@ -1,6 +1,5 @@
 package com.plcoding.bluetoothchat.presentation.components.screen
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,11 +7,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.components.common_components.CustomResponsiveButton
+import com.plcoding.bluetoothchat.presentation.components.common_components.CustomLargeText
+import com.plcoding.bluetoothchat.presentation.components.common_components.CustomMediumText
 
 @Composable
 fun DeviceScreen(
@@ -20,7 +21,8 @@ fun DeviceScreen(
     onStartScan: () -> Unit,
     onStopScan: () -> Unit,
     onStartServer: () -> Unit,
-    onDeviceClick: (BluetoothDevice) -> Unit
+    connectToDevice: (BluetoothDevice) -> Unit,
+    disconnectFromDevice: (BluetoothDevice) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -29,7 +31,8 @@ fun DeviceScreen(
         BluetoothDeviceList(
             pairedDevices = state.pairedDevices,
             scannedDevices = state.scannedDevices,
-            onClick = onDeviceClick,
+            connectToDevice = connectToDevice,
+            disconnectFromDevice = disconnectFromDevice,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -39,7 +42,7 @@ fun DeviceScreen(
             horizontalArrangement = Arrangement.SpaceAround
         ) {
             Button(onClick = onStartScan) {
-                Text(text = "Start scan")
+                CustomMediumText(title = stringResource(id = R.string.s))
             }
             Button(onClick = onStopScan) {
                 Text(text = "Stop scan")
@@ -50,51 +53,31 @@ fun DeviceScreen(
         }
     }
 }
-
 @Composable
 fun BluetoothDeviceList(
     pairedDevices: List<BluetoothDevice>,
     scannedDevices: List<BluetoothDevice>,
-    onClick: (BluetoothDevice) -> Unit,
+    connectToDevice: (BluetoothDevice) -> Unit,
+    disconnectFromDevice: (BluetoothDevice) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
-    ) {
+    LazyColumn(modifier = modifier) {
         item {
-            Text(
-                text = "Paired Devices",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(16.dp)
-            )
+            CustomLargeText(title = stringResource(id = R.string.connected_devices))
         }
         items(pairedDevices) { device ->
-            Text(
-                text = device.name ?: "(No name)",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onClick(device) }
-                    .padding(16.dp)
-            )
+            CustomResponsiveButton(deviceName = device.name, buttonTitle = stringResource(id = R.string.cancel_bluetooth_connection), buttonColorId = R.color.error) {
+                disconnectFromDevice(device)
+            }
         }
 
         item {
-            Text(
-                text = "Scanned Devices",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(16.dp)
-            )
+            CustomLargeText(title = stringResource(id = R.string.nearby_devices))
         }
         items(scannedDevices) { device ->
-            Text(
-                text = device.name ?: "(No name)",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onClick(device) }
-                    .padding(16.dp)
-            )
+            CustomResponsiveButton(deviceName = device.name, buttonTitle = stringResource(id = R.string.connect_bluetooth), buttonColorId = R.color.success){
+                connectToDevice(device)
+            }
         }
     }
 }

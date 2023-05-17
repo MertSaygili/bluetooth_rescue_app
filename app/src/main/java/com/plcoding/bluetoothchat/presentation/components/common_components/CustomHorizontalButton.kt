@@ -16,14 +16,9 @@ import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.ui.theme.Shapes
 
 @Composable
-fun CustomButton(text: String, colorId: Int, event: () -> Unit, ) {
-    val buttonModifier = Modifier
-        .padding(20.dp)
-        .height(50.dp)
-        .fillMaxWidth()
-
+fun CustomHorizontalButton(text: String, colorId: Int, event: () -> Unit, ) {
     Button(
-        modifier = buttonModifier,
+        modifier = Modifier.padding(20.dp).height(50.dp).fillMaxWidth(),
         shape = Shapes.large,
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = colorId)),
         onClick = event

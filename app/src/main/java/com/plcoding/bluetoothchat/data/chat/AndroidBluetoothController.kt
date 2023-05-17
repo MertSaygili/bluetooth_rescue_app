@@ -2,11 +2,7 @@ package com.plcoding.bluetoothchat.data.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
-import android.bluetooth.BluetoothServerSocket
-import android.bluetooth.BluetoothSocket
+import android.bluetooth.*
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -157,6 +153,24 @@ class AndroidBluetoothController(
         }.onCompletion {
             closeConnection()
         }.flowOn(Dispatchers.IO)
+    }
+
+    override fun disconnectConnectionBetweenDevices(device: BluetoothDeviceDomain) {
+        val serviceListener: BluetoothProfile.ServiceListener = object : BluetoothProfile.ServiceListener{
+            override fun onServiceDisconnected(profile: Int) {}
+
+            @SuppressLint("DiscouragedPrivateApi")
+            override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
+                val disconnect = BluetoothA2dp::class.java.getDeclaredMethod(
+                    "disconnect",
+                    BluetoothDevice::class.java
+                )
+                disconnect.isAccessible = true
+                disconnect.invoke(proxy, device)
+                BluetoothAdapter.getDefaultAdapter().closeProfileProxy(profile, proxy)
+            }
+        }
+        BluetoothAdapter.getDefaultAdapter().getProfileProxy(context, serviceListener, BluetoothProfile.A2DP)
     }
 
     override fun closeConnection() {

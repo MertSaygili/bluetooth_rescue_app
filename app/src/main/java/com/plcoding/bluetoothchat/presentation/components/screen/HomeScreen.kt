@@ -15,13 +15,10 @@ import androidx.compose.ui.res.stringResource
 import com.plcoding.bluetoothchat.constants.Strings
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.room.Room
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.database.AppDatabase
-import com.plcoding.bluetoothchat.entities.Message
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
-import com.plcoding.bluetoothchat.presentation.components.common_components.CustomButton
+import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
 import com.plcoding.bluetoothchat.presentation.components.location_controller.LocationController
 
 @Composable
@@ -62,7 +59,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                CustomButton(text = stringResource(id = R.string.send_SOS), colorId = R.color.error) {
+                CustomHorizontalButton(text = stringResource(id = R.string.send_SOS), colorId = R.color.error) {
 
 
 //                    val messageDao = db.messageDao()
@@ -92,7 +89,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                         }
                     }
                 }
-                CustomButton(text = stringResource(id = R.string.connect_with_devices), colorId = R.color.success) {
+                CustomHorizontalButton(text = stringResource(id = R.string.connect_with_devices), colorId = R.color.success) {
                     navController.navigate(Strings.main_route_name)
                 }
             }

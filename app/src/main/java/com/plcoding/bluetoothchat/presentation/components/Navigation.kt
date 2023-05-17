@@ -70,7 +70,8 @@ fun Navigation(context: Context) {
                         onStartScan = viewModel::startScan,
                         onStopScan = viewModel::stopScan,
                         onStartServer = viewModel::waitForIncomingConnections,
-                        onDeviceClick = viewModel::connectToDevice
+                        connectToDevice = viewModel::connectToDevice,
+                        disconnectFromDevice = viewModel::disconnectFromDevice
                     )
                 }
             }
