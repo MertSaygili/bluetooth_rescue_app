@@ -74,6 +74,8 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
 
 //                    Log.d("Omer",messages.toString())
 
+                    //TODO Izinden sonra konumu actirmam lazim
+
                     when (PackageManager.PERMISSION_GRANTED) {
                         //Check permission
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
