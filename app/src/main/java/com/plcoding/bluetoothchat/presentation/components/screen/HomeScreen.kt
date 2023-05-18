@@ -49,7 +49,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
 //    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
     Scaffold(
-        topBar = { CustomAppbar(title = stringResource(id = R.string.appbar_title)) }
+        topBar = { CustomAppbar(context = null, title = stringResource(id = R.string.appbar_title), false) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             Column(

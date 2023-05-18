@@ -1,6 +1,9 @@
 package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,17 +16,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.DeviceScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.HomeScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.SplashScreen
+
 
 @Composable
 fun Navigation(context: Context) {
@@ -34,7 +41,7 @@ fun Navigation(context: Context) {
             SplashScreen(navController = navController)
         }
         composable(route = Strings.home_route_name){
-            var fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+            val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
             HomeScreen(navController, fusedLocationClient)
         }
         composable(route = Strings.main_route_name) {
@@ -61,7 +68,7 @@ fun Navigation(context: Context) {
                         verticalArrangement = Arrangement.Center
                     ) {
                         CircularProgressIndicator()
-                        Text(text = "Connecting...")
+                        Text(text = stringResource(id = R.string.connecting))
                     }
                 }
                 else -> {
@@ -71,7 +78,7 @@ fun Navigation(context: Context) {
                         onStopScan = viewModel::stopScan,
                         onStartServer = viewModel::waitForIncomingConnections,
                         connectToDevice = viewModel::connectToDevice,
-                        disconnectFromDevice = viewModel::disconnectFromDevice
+                        context = context
                     )
                 }
             }

@@ -1,9 +1,11 @@
 package com.plcoding.bluetoothchat.presentation.components.screen
 
+import android.content.Context
+import android.content.Intent
+import android.provider.Settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,10 +22,10 @@ fun DeviceScreen(
     onStopScan: () -> Unit,
     onStartServer: () -> Unit,
     connectToDevice: (BluetoothDevice) -> Unit,
-    disconnectFromDevice: (BluetoothDevice) -> Unit
+    context: Context
 ) {
     Scaffold(
-        topBar = { CustomAppbar(title = stringResource(id = R.string.appbar_title)) }
+        topBar = { CustomAppbar(context = context, title = stringResource(id = R.string.appbar_title), true) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             Column(
@@ -34,8 +36,7 @@ fun DeviceScreen(
                     pairedDevices = state.pairedDevices,
                     scannedDevices = state.scannedDevices,
                     connectToDevice = connectToDevice,
-                    disconnectFromDevice = disconnectFromDevice,
-                    modifier = Modifier.fillMaxWidth().weight(1f)
+                    modifier = Modifier.fillMaxWidth().weight(1f),
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
                     CustomSmallButton(textId = R.string.scan, colorId = R.color.success) { onStartScan() }
@@ -52,15 +53,14 @@ fun BluetoothDeviceList(
     pairedDevices: List<BluetoothDevice>,
     scannedDevices: List<BluetoothDevice>,
     connectToDevice: (BluetoothDevice) -> Unit,
-    disconnectFromDevice: (BluetoothDevice) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         // paired devices column
         item { CustomLargeText(title = stringResource(id = R.string.connected_devices)) }
         items(pairedDevices) { device ->
-            CustomBluetoothDeviceRow(deviceName = device.name, buttonTitle = stringResource(id = R.string.cancel_bluetooth_connection), buttonColorId = R.color.error) {
-                disconnectFromDevice(device)
+            CustomBluetoothDeviceRow(deviceName = device.name, buttonTitle = stringResource(id = R.string.connect), buttonColorId = R.color.success) {
+                connectToDevice(device)
             }
         }
 
