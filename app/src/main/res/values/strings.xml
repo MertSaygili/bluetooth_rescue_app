@@ -9,4 +9,10 @@
     <string name="connect_bluetooth">bağlantı kur</string>
     <string name="cancel_bluetooth_connection">bağlantıyı kes</string>
     <string name="send_message">Bir message yazınız</string>
+
+
+    <string name="scan">tara</string>
+    <string name="stop_scan">taramayı durdur</string>
+    <string name="open_server">sunucu aç</string>
+
 </resources>

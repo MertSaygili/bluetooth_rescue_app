@@ -1,8 +1,14 @@
-package com.plcoding.bluetoothchat.presentation.components.bluetooth_vm
+package com.plcoding.bluetoothchat.presentation.bluetooth_vm
 
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothProfile
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
+import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,12 +46,14 @@ class BluetoothViewModel @Inject constructor(
 
     }
 
+
     fun connectToDevice(device: BluetoothDeviceDomain) {
         _state.update { it.copy(isConnecting = true) }
         deviceConnectionJob = bluetoothController.connectToDevice(device).listen()
     }
 
     fun disconnectFromDevice(device: BluetoothDeviceDomain){
+        bluetoothController.disconnectFromBluetoothDevice(device)
         _state.update { it.copy(isConnected = false, isConnecting = false) }
     }
 

@@ -1,4 +1,4 @@
-//package com.plcoding.bluetoothchat.presentation
+package com.plcoding.bluetoothchat.presentation.location_controller//package com.plcoding.bluetoothchat.presentation
 //
 //import android.Manifest
 //import android.content.Context

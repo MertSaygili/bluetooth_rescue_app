@@ -1,11 +1,13 @@
 package com.plcoding.bluetoothchat.data.chat
 
 import android.Manifest
+import android.R
 import android.annotation.SuppressLint
 import android.bluetooth.*
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.util.Log
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
@@ -14,14 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.lang.reflect.Method
 import java.util.*
 
 @SuppressLint("MissingPermission") // Permissions are controlling my hand
 
-class AndroidBluetoothController(
-    private val context: Context
-): BluetoothController {
-
+class AndroidBluetoothController(private val context: Context): BluetoothController {
 
     private val bluetoothManager by lazy { context.getSystemService(BluetoothManager::class.java) }
     private val bluetoothAdapter by lazy { bluetoothManager?.adapter }
@@ -155,23 +155,8 @@ class AndroidBluetoothController(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun disconnectConnectionBetweenDevices(device: BluetoothDeviceDomain) {
-        val serviceListener: BluetoothProfile.ServiceListener = object : BluetoothProfile.ServiceListener{
-            override fun onServiceDisconnected(profile: Int) {}
+    override fun disconnectFromBluetoothDevice(device: BluetoothDeviceDomain) {}
 
-            @SuppressLint("DiscouragedPrivateApi")
-            override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
-                val disconnect = BluetoothA2dp::class.java.getDeclaredMethod(
-                    "disconnect",
-                    BluetoothDevice::class.java
-                )
-                disconnect.isAccessible = true
-                disconnect.invoke(proxy, device)
-                BluetoothAdapter.getDefaultAdapter().closeProfileProxy(profile, proxy)
-            }
-        }
-        BluetoothAdapter.getDefaultAdapter().getProfileProxy(context, serviceListener, BluetoothProfile.A2DP)
-    }
 
     override fun closeConnection() {
         currentClientSocket?.close()

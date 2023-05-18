@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.constants.Strings
-import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothViewModel
+import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.DeviceScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.HomeScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.SplashScreen

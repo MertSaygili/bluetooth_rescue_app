@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.presentation.components.bluetooth_vm
+package com.plcoding.bluetoothchat.presentation.bluetooth_vm
 
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 

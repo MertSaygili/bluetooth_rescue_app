@@ -19,7 +19,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
-import com.plcoding.bluetoothchat.presentation.components.location_controller.LocationController
+import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 
 @Composable
 fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationProviderClient) {

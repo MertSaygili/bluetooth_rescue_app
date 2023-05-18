@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.presentation.components.location_controller
+package com.plcoding.bluetoothchat.presentation.location_controller
 
 import android.annotation.SuppressLint
 import android.location.Location

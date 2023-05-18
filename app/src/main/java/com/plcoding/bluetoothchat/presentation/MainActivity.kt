@@ -19,7 +19,7 @@ import androidx.room.Room
 import com.plcoding.bluetoothchat.database.AppDatabase
 import com.plcoding.bluetoothchat.entities.Message
 import com.plcoding.bluetoothchat.presentation.components.Navigation
-import com.plcoding.bluetoothchat.presentation.components.bluetooth_vm.BluetoothViewModel
+import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothViewModel
 import com.plcoding.bluetoothchat.ui.theme.BluetoothChatTheme
 import dagger.hilt.android.AndroidEntryPoint
 
