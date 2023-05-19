@@ -20,7 +20,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
-import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.presentation.components.common_components.ChatMessage
 
 

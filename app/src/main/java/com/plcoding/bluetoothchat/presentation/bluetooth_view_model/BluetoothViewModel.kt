@@ -1,15 +1,8 @@
-package com.plcoding.bluetoothchat.presentation.bluetooth_vm
+package com.plcoding.bluetoothchat.presentation.bluetooth_view_model
 
-import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothProfile
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +39,6 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
         }
 
     }
-
 
     fun connectToDevice(device: BluetoothDeviceDomain) {
         _state.update { it.copy(isConnecting = true) }

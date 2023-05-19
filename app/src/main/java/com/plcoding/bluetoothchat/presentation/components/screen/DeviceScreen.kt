@@ -1,8 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.components.screen
 
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
-import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.presentation.components.common_components.*
 
 @Composable

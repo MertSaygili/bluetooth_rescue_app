@@ -10,12 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage
-import com.plcoding.bluetoothchat.presentation.components.screen.ChatScreen
-import com.plcoding.bluetoothchat.ui.theme.BluetoothChatTheme
 import com.plcoding.bluetoothchat.ui.theme.OldRose
 import com.plcoding.bluetoothchat.ui.theme.Vanilla
 
