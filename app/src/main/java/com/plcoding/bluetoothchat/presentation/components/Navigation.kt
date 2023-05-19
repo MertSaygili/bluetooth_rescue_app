@@ -1,9 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +23,7 @@ import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_vm.BluetoothViewModel
+import com.plcoding.bluetoothchat.presentation.components.screen.ChatScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.DeviceScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.HomeScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.SplashScreen
@@ -44,7 +41,7 @@ fun Navigation(context: Context) {
             val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
             HomeScreen(navController, fusedLocationClient)
         }
-        composable(route = Strings.main_route_name) {
+        composable(route = Strings.bluetooth_devices_route_name) {
             val viewModel = hiltViewModel<BluetoothViewModel>()
             val state by viewModel.state.collectAsState()
             LaunchedEffect(key1 = state.errorMessage) {
@@ -70,6 +67,12 @@ fun Navigation(context: Context) {
                         CircularProgressIndicator()
                         Text(text = stringResource(id = R.string.connecting))
                     }
+                }
+                state.isConnected -> {
+                    ChatScreen(state = state,
+                        onDisconnect = viewModel::disconnectFromDevice,
+                        onSendMessage = viewModel::sendMessage
+                    )
                 }
                 else -> {
                     DeviceScreen(

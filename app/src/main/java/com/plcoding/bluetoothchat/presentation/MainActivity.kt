@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
 
     private val isBluetoothEnabled: Boolean get() = bluetoothAdapter?.isEnabled == true
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,8 +69,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             BluetoothChatTheme {
-                val viewModel = hiltViewModel<BluetoothViewModel>()
-                val state by viewModel.state.collectAsState()
                 Surface(
                     color = MaterialTheme.colors.background
                 ) {

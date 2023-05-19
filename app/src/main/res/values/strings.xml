@@ -19,5 +19,10 @@
     <string name="open_server">sunucu aç</string>
     
     <string name="connecting">bağlantı kuruluyor…</string>
+    <string name="ok">Tamam</string>
+    
+    <string name="warning">UYARI</string>
+    <string name="open_GPS">Telefonunuzun GPS özelliğini açınız.</string>
+
 
 </resources>

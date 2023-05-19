@@ -7,22 +7,25 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.plcoding.bluetoothchat.constants.Strings
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
+import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.CustomAlertDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 
 @Composable
 fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationProviderClient) {
+
+    // location launcher
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
@@ -41,6 +44,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
     }
 
     val context = LocalContext.current
+    var showDialog by remember { mutableStateOf(false) }
 
 
 //    val db = Room.databaseBuilder(
@@ -71,13 +75,18 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
 
 //                    Log.d("Omer",messages.toString())
 
-                    //TODO Izinden sonra konumu actirmam lazim
-
                     when (PackageManager.PERMISSION_GRANTED) {
-                        //Check permission
+                        // if fine location has been granted before
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                            Log.d("Success","calisacak mi acep")
-                            LocationController().getCurrentCoordinates(fusedLocationClient)
+                            if(LocationController().checkGPSOn(context = context)) {
+                                // GPS is On
+                                LocationController().getCurrentCoordinates(fusedLocationClient)
+                            }
+                            else{
+                                // GPS is off
+                                // shows warning dialog
+                                showDialog = true
+                            }
                         }
                         else -> {
                             // Asking for permission
@@ -85,12 +94,20 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.ACCESS_COARSE_LOCATION)
                             )
-                            Log.d("Success", "eee kanka")
                         }
                     }
                 }
+
+                // connect with other devices button
                 CustomHorizontalButton(text = stringResource(id = R.string.connect_with_devices), colorId = R.color.success) {
-                    navController.navigate(Strings.main_route_name)
+                    navController.navigate(Strings.bluetooth_devices_route_name)
+                }
+
+                // shows location alert, if gps is off, alert shows
+                if(showDialog) {
+                    CustomAlertDialog() {
+                        showDialog = false
+                    }
                 }
             }
         }
