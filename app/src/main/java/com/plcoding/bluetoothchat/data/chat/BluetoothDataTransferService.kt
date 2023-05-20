@@ -10,8 +10,9 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class BluetoothDataTransferService (private val socket: BluetoothSocket){
-
+class BluetoothDataTransferService(
+    private val socket: BluetoothSocket
+) {
     fun listenForIncomingMessages(): Flow<BluetoothMessage> {
         return flow {
             if(!socket.isConnected) {
@@ -25,7 +26,13 @@ class BluetoothDataTransferService (private val socket: BluetoothSocket){
                     throw TransferFailedException()
                 }
 
-                emit(buffer.decodeToString(endIndex = byteCount).toBluetoothMessage(isFromLocalUser = false))
+                emit(
+                    buffer.decodeToString(
+                        endIndex = byteCount
+                    ).toBluetoothMessage(
+                        isFromLocalUser = false
+                    )
+                )
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -38,8 +45,8 @@ class BluetoothDataTransferService (private val socket: BluetoothSocket){
                 e.printStackTrace()
                 return@withContext false
             }
+
             true
         }
     }
-
 }

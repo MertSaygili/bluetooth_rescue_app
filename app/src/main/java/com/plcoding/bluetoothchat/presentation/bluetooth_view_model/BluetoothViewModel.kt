@@ -23,7 +23,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
         state.copy(
             scannedDevices = scannedDevices,
             pairedDevices = pairedDevices,
-            messages = if(state.isConnecting) state.messages else emptyList()
+            messages = if(state.isConnected) state.messages else emptyList()
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
@@ -63,13 +63,11 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
 
     fun sendMessage(message: String) {
         viewModelScope.launch {
-            val bluetoothMessage = bluetoothController.trySendMessage(message = message)
+            val bluetoothMessage = bluetoothController.trySendMessage(message)
             if(bluetoothMessage != null) {
-                _state.update {
-                    it.copy(
-                        messages = it.messages + bluetoothMessage
-                    )
-                }
+                _state.update { it.copy(
+                    messages = it.messages + bluetoothMessage
+                ) }
             }
         }
     }
@@ -82,9 +80,9 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
         bluetoothController.stopDiscovery()
     }
 
-    private fun Flow<ConnectionResult>.listen(): Job{
-        return onEach { result->
-            when(result){
+    private fun Flow<ConnectionResult>.listen(): Job {
+        return onEach { result ->
+            when(result) {
                 ConnectionResult.ConnectionEstablished -> {
                     _state.update { it.copy(
                         isConnected = true,
@@ -105,13 +103,13 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                     ) }
                 }
             }
-        }.catch {
-            bluetoothController.closeConnection()
-            _state.update { it.copy(
-                isConnected = false,
-                isConnecting = false,
-            ) }
-        }.launchIn(viewModelScope)
+        }.catch { throwable ->
+                bluetoothController.closeConnection()
+                _state.update { it.copy(
+                    isConnected = false,
+                    isConnecting = false,
+                ) }
+            }.launchIn(viewModelScope)
     }
 
     override fun onCleared() {

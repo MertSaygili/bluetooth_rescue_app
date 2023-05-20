@@ -26,33 +26,54 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.Chat
 
 
 @Composable
-fun ChatScreen(state: BluetoothUiState, onDisconnect: () -> Unit, onSendMessage: (String) -> Unit) {
-    val message = rememberSaveable { mutableStateOf("") }
+fun ChatScreen(
+    state: BluetoothUiState,
+    onDisconnect: () -> Unit,
+    onSendMessage: (String) -> Unit
+) {
+    val message = rememberSaveable {
+        mutableStateOf("")
+    }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    Column (
-        modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Row (
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-        ){
-            Text(text = "messages", modifier = Modifier.weight(1f))
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Messages",
+                modifier = Modifier.weight(1f)
+            )
             IconButton(onClick = onDisconnect) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "disconnect")
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Disconnect"
+                )
             }
         }
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(state.messages) { message ->
-                Column(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     ChatMessage(
                         message = message,
-                        modifier = Modifier.align(if (message.isFromLocalUser) Alignment.End else Alignment.Start)
+                        modifier = Modifier
+                            .align(
+                                if(message.isFromLocalUser) Alignment.End else Alignment.Start
+                            )
                     )
                 }
             }
@@ -63,17 +84,23 @@ fun ChatScreen(state: BluetoothUiState, onDisconnect: () -> Unit, onSendMessage:
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextField(value = message.value,
-                onValueChange = {message.value = it},
+            TextField(
+                value = message.value,
+                onValueChange = { message.value = it },
                 modifier = Modifier.weight(1f),
-                placeholder = {Text(text = "Message") }
+                placeholder = {
+                    Text(text = "Message")
+                }
             )
-            IconButton(
-                onClick = {
+            IconButton(onClick = {
                 onSendMessage(message.value)
+                message.value = ""
                 keyboardController?.hide()
             }) {
-                Icon(imageVector = Icons.Default.Send, contentDescription = "Send")
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = "Send message"
+                )
             }
         }
     }
