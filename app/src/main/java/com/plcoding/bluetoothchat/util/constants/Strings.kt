@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.constants
+package com.plcoding.bluetoothchat.util.constants
 
 class Strings {
     companion object{

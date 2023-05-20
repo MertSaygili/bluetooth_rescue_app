@@ -12,7 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.constants.Strings
+import com.plcoding.bluetoothchat.util.constants.Strings
 import kotlinx.coroutines.delay
 
 

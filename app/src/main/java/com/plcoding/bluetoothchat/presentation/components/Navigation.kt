@@ -21,7 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.constants.Strings
+import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.ChatScreen
 import com.plcoding.bluetoothchat.presentation.components.screen.DeviceScreen
@@ -71,7 +71,8 @@ fun Navigation(context: Context) {
                 state.isConnected -> {
                     ChatScreen(state = state,
                         onDisconnect = viewModel::disconnectFromDevice,
-                        onSendMessage = viewModel::sendMessage
+                        onSendMessage = viewModel::sendMessage,
+                        context = context
                     )
                 }
                 else -> {

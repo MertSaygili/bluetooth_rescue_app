@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.constants.Strings
+import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.CustomAlertDialog
@@ -53,7 +53,10 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
 //    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
 
     Scaffold(
-        topBar = { CustomAppbar(context = null, title = stringResource(id = R.string.appbar_title), false) }
+        topBar = { CustomAppbar(context = null, title = stringResource(id = R.string.appbar_title),
+            needAction = false,
+            goBack = false
+        ) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
             Column(
