@@ -2,6 +2,7 @@ package com.plcoding.bluetoothchat.presentation.components.common_components
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.biometrics.BiometricManager.Strings
 import android.provider.Settings
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
 import com.plcoding.bluetoothchat.R
 

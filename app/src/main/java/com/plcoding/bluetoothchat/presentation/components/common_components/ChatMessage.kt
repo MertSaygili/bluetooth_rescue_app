@@ -36,7 +36,7 @@ fun ChatMessage(
                     bottomEnd = if (message.isFromLocalUser) 0.dp else 15.dp
                 )
             )
-            .background(if (message.isFromLocalUser) DarkWhite else OpenBlue)
+            .background(if (message.isFromLocalUser) OpenBlue else DarkWhite)
             .padding(16.dp)
     ) {
         Text(

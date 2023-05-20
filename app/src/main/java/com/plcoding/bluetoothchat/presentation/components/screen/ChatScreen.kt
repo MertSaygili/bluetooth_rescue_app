@@ -41,7 +41,7 @@ fun ChatScreen(
         topBar = { CustomAppbar(
             context = context,
             title = stringResource(id = R.string.appbar_title),
-            needAction = true,
+            needAction = false,
             goBack = true
         ) }
     ) { contentPadding ->

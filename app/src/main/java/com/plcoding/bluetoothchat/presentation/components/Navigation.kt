@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,10 +24,7 @@ import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothViewModel
-import com.plcoding.bluetoothchat.presentation.components.screen.ChatScreen
-import com.plcoding.bluetoothchat.presentation.components.screen.DeviceScreen
-import com.plcoding.bluetoothchat.presentation.components.screen.HomeScreen
-import com.plcoding.bluetoothchat.presentation.components.screen.SplashScreen
+import com.plcoding.bluetoothchat.presentation.components.screen.*
 
 
 @Composable
@@ -59,17 +57,11 @@ fun Navigation(context: Context) {
 
             when{
                 state.isConnecting -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator()
-                        Text(text = stringResource(id = R.string.connecting))
-                    }
+                    LoadingScreen()
                 }
                 state.isConnected -> {
-                    ChatScreen(state = state,
+                    ChatScreen(
+                        state = state,
                         onDisconnect = viewModel::disconnectFromDevice,
                         onSendMessage = viewModel::sendMessage,
                         context = context
@@ -87,5 +79,8 @@ fun Navigation(context: Context) {
                 }
             }
         }
+
+
     }
+
 }
