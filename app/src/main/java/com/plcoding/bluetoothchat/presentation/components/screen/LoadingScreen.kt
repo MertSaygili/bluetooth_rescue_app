@@ -13,6 +13,7 @@ import com.plcoding.bluetoothchat.R
 
 @Composable
 fun LoadingScreen() {
+    // basic loading indicator and connecting text
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,

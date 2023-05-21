@@ -12,24 +12,24 @@ import com.plcoding.bluetoothchat.R
 
 @Composable
 fun CustomLargeText(title: String){
+    // for titles
     Text(
         text = title,
         color = colorResource(id = R.color.black),
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
+        fontSize = 20.sp,
         modifier = Modifier.padding(16.dp)
     )
 }
 
 @Composable
 fun CustomMediumText(title: String) {
+    // for medium texts
     Text(
         text = title,
         color = colorResource(id = R.color.white),
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-
     )
-
 }

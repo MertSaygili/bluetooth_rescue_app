@@ -17,6 +17,7 @@ import com.plcoding.bluetoothchat.ui.theme.Shapes
 
 @Composable
 fun CustomBluetoothDeviceRow(deviceName: String?, buttonTitle: String, buttonColorId: Int, buttonEvent: () -> Unit) {
+    // shows device name and button
     Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp, vertical = 2.dp),){

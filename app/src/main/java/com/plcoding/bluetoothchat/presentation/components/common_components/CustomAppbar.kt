@@ -19,19 +19,15 @@ import androidx.navigation.compose.rememberNavController
 import com.plcoding.bluetoothchat.R
 
 @Composable
-fun CustomAppbar(context: Context?, title: String, needAction: Boolean, goBack: Boolean) {
-    val navController = rememberNavController()
-
-
+fun CustomAppbar(context: Context?, title: String, needAction: Boolean, goBack: Boolean, goBackFunction: () -> Unit) {
+    // appbar that used in app for every page
     TopAppBar(
         title  = { Text(text = title, color = colorResource(id = R.color.white))},
         backgroundColor = colorResource(id = R.color.success),
         elevation = 8.dp,
         navigationIcon = {
             if(goBack) {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
+                IconButton(onClick = { goBackFunction() }) {
                     Icon(Icons.Filled.ArrowBack, "Back", tint = colorResource(id = R.color.white))
                 }
             }

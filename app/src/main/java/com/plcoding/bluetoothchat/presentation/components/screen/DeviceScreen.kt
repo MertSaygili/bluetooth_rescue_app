@@ -25,7 +25,8 @@ fun DeviceScreen(
     Scaffold(
         topBar = { CustomAppbar(context = context, title = stringResource(id = R.string.appbar_title),
             needAction = true,
-            goBack = false
+            goBack = false,
+            goBackFunction = {},
         ) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {

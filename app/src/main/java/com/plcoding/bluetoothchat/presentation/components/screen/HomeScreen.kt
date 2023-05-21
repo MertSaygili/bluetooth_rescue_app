@@ -55,7 +55,8 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
     Scaffold(
         topBar = { CustomAppbar(context = null, title = stringResource(id = R.string.appbar_title),
             needAction = false,
-            goBack = false
+            goBack = false,
+            goBackFunction = {},
         ) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {
@@ -81,7 +82,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                     when (PackageManager.PERMISSION_GRANTED) {
                         // if fine location has been granted before
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                            if(LocationController().checkGPSOn(context = context)) {
+                            if(LocationController().checkGPSIsOn(context = context)) {
                                 // GPS is On
                                 LocationController().getCurrentCoordinates(fusedLocationClient)
                             }

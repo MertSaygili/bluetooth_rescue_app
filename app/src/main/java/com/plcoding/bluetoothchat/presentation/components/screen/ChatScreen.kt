@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -40,9 +39,10 @@ fun ChatScreen(
     Scaffold(
         topBar = { CustomAppbar(
             context = context,
-            title = stringResource(id = R.string.appbar_title),
+            title = state.messages[0].senderName,
             needAction = false,
-            goBack = true
+            goBack = true,
+            goBackFunction = onDisconnect
         ) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {

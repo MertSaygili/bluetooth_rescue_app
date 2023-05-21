@@ -10,6 +10,8 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.Cust
 
 @Composable
 fun CustomAlertDialog(confirmButton: () -> Unit) {
+    // alert dialog
+    // pop ups if user does not open location
     AlertDialog(
         onDismissRequest = {},
         title = { Text(text = stringResource(id = R.string.warning), fontWeight = FontWeight.Bold) },

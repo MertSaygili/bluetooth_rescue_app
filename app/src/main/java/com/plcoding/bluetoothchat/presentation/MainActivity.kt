@@ -33,10 +33,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // bluetooth launcher
         val enableBluetoothLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { /* Not needed */ }
 
+        // bluetooth permission launcher
         val permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { perms ->
@@ -50,6 +52,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
+        // if SDK > 31 and android level is higher than 11 shows bluetooth permissions
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionLauncher.launch(
                 arrayOf(
@@ -59,6 +62,7 @@ class MainActivity : ComponentActivity() {
             )
         }
 
+        // content of app
         setContent {
             BluetoothChatTheme {
                 Surface(

@@ -8,12 +8,13 @@ import android.util.Log
 import com.google.android.gms.location.FusedLocationProviderClient
 
 class LocationController{
-    // checks gps on or off
-    fun checkGPSOn(context: Context) : Boolean{
+    // is gps on or off, returns status of gps
+    fun checkGPSIsOn(context: Context) : Boolean{
         val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
+    // gets current location of user
     @SuppressLint("MissingPermission")
     fun getCurrentCoordinates(fusedLocationClient: FusedLocationProviderClient) {
         fusedLocationClient.lastLocation

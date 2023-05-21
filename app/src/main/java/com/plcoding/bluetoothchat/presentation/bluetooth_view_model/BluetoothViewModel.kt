@@ -13,13 +13,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BluetoothViewModel @Inject constructor(private val bluetoothController: BluetoothController): ViewModel() {
-
+    // this file for bluetooth state control and bluetooth functions
     private val _state = MutableStateFlow(BluetoothUiState())
-    val state = combine(
-        bluetoothController.scannedDevices,
-        bluetoothController.pairedDevices,
-        _state
-    ) { scannedDevices, pairedDevices, state ->
+    val state = combine(bluetoothController.scannedDevices, bluetoothController.pairedDevices, _state) { scannedDevices, pairedDevices, state ->
         state.copy(
             scannedDevices = scannedDevices,
             pairedDevices = pairedDevices,
@@ -37,30 +33,34 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
         bluetoothController.errors.onEach {  error->
             _state.update { it.copy(errorMessage = error)}
         }
-
     }
 
+    // connects devices
     fun connectToDevice(device: BluetoothDeviceDomain) {
         _state.update { it.copy(isConnecting = true) }
         deviceConnectionJob = bluetoothController.connectToDevice(device).listen()
     }
 
+    // disconnect from device -- not works - unpairing
     fun disconnectFromDevice(device: BluetoothDeviceDomain){
         bluetoothController.disconnectFromBluetoothDevice(device)
         _state.update { it.copy(isConnected = false, isConnecting = false) }
     }
 
+    // disconnect from devices -- works -- not unpairing
     fun disconnectFromDevice(){
         deviceConnectionJob?.cancel()
         bluetoothController.closeConnection()
         _state.update { it.copy(isConnected = false, isConnecting = false) }
     }
 
+    // waits for incoming connection request
     fun waitForIncomingConnections() {
         _state.update { it.copy(isConnecting = true) }
         deviceConnectionJob = bluetoothController.startBluetoothServer().listen()
     }
 
+    // sends message to other device
     fun sendMessage(message: String) {
         viewModelScope.launch {
             val bluetoothMessage = bluetoothController.trySendMessage(message)
@@ -71,11 +71,12 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
             }
         }
     }
-
+    // for discovery -- finding nearby devices
     fun startScan() {
         bluetoothController.startDiscovery()
     }
 
+    // for discovery -- stops discovery
     fun stopScan() {
         bluetoothController.stopDiscovery()
     }
@@ -83,6 +84,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
     private fun Flow<ConnectionResult>.listen(): Job {
         return onEach { result ->
             when(result) {
+                // if connection made
                 ConnectionResult.ConnectionEstablished -> {
                     _state.update { it.copy(
                         isConnected = true,
@@ -90,11 +92,13 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                         errorMessage = null
                     ) }
                 }
+                // if message send
                 is ConnectionResult.TransferSucceeded -> {
                     _state.update { it.copy(
                         messages = it.messages + result.message
                     ) }
                 }
+                // if error occur
                 is ConnectionResult.Error -> {
                     _state.update { it.copy(
                         isConnected = false,
@@ -112,6 +116,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
             }.launchIn(viewModelScope)
     }
 
+    // clear all bluetooth devices -- not used in app
     override fun onCleared() {
         super.onCleared()
         bluetoothController.release()

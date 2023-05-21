@@ -19,6 +19,8 @@ import com.plcoding.bluetoothchat.ui.theme.Shapes
 
 @Composable
 fun CustomHorizontalButton(text: String, colorId: Int, event: () -> Unit, ) {
+    // used for YARDIM MESAJI GONDER, YAKINDAKI CIHAZLARI GOR buttons
+    // horizontal button
     Button(
         modifier = Modifier.padding(20.dp).height(50.dp).fillMaxWidth(),
         shape = Shapes.large,
@@ -31,6 +33,8 @@ fun CustomHorizontalButton(text: String, colorId: Int, event: () -> Unit, ) {
 
 @Composable
 fun CustomSmallButton(textId: Int, colorId: Int, event: () -> Unit) {
+    // small button for baglan, sunucu are
+    // responsive
     Button(
         modifier = Modifier.padding(4.dp),
         colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = colorId)),

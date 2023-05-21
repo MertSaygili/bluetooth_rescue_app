@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.plcoding.bluetoothchat.entities.Message
 
+// database interface functions
 @Dao
 interface MessageDao {
     @Query("SELECT * FROM message")

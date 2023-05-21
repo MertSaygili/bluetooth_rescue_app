@@ -18,6 +18,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
+    // waits 3 seconds and push navigator to home screen
     LaunchedEffect(key1 = true){
         delay(3000L)
         navController.navigate(Strings.home_route_name){

@@ -22,10 +22,8 @@ import com.plcoding.bluetoothchat.util.time.Time
 
 
 @Composable
-fun ChatMessage(
-    message: BluetoothMessage,
-    modifier: Modifier = Modifier
-) {
+fun ChatMessage(message: BluetoothMessage, modifier: Modifier = Modifier ){
+    // chat message component
     Column(
         modifier = modifier
             .clip(
@@ -39,17 +37,20 @@ fun ChatMessage(
             .background(if (message.isFromLocalUser) OpenBlue else DarkWhite)
             .padding(16.dp)
     ) {
+        // sender name
         Text(
             text = message.senderName,
             fontSize = 10.sp,
             color = colorResource(id = R.color.black),
         )
+        // content
         Text(
             text = message.message,
             fontSize = 14.sp,
             color = colorResource(id = R.color.black),
             modifier = Modifier.widthIn(max = 250.dp)
         )
+        // date
         Row (
             modifier =Modifier.wrapContentWidth(),
             horizontalArrangement = Arrangement.End,
