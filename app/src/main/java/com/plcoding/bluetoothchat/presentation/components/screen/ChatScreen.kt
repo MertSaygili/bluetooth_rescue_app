@@ -22,6 +22,7 @@ import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.presentation.components.common_components.ChatMessage
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
+import com.plcoding.bluetoothchat.util.constants.Strings
 
 
 @Composable
@@ -39,7 +40,7 @@ fun ChatScreen(
     Scaffold(
         topBar = { CustomAppbar(
             context = context,
-            title = state.messages[0].senderName,
+            title = Strings.messageStringTitle,
             needAction = false,
             goBack = true,
             goBackFunction = onDisconnect

@@ -12,5 +12,6 @@ class Strings {
 
         // db constants
         const val db_name = "message"
+        const val messageStringTitle = "Acil Konuşma Paneli"
     }
 }

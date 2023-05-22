@@ -56,7 +56,7 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
         topBar = { CustomAppbar(context = null, title = stringResource(id = R.string.appbar_title),
             needAction = false,
             goBack = false,
-            goBackFunction = {},
+            goBackFunction = {}
         ) }
     ) { contentPadding ->
         Box(modifier = Modifier.padding(contentPadding)) {

@@ -32,7 +32,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
 
         bluetoothController.errors.onEach {  error->
             _state.update { it.copy(errorMessage = error)}
-        }
+        }.launchIn(viewModelScope)
     }
 
     // connects devices
@@ -84,7 +84,6 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
     private fun Flow<ConnectionResult>.listen(): Job {
         return onEach { result ->
             when(result) {
-                // if connection made
                 ConnectionResult.ConnectionEstablished -> {
                     _state.update { it.copy(
                         isConnected = true,
@@ -92,13 +91,11 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                         errorMessage = null
                     ) }
                 }
-                // if message send
                 is ConnectionResult.TransferSucceeded -> {
                     _state.update { it.copy(
                         messages = it.messages + result.message
                     ) }
                 }
-                // if error occur
                 is ConnectionResult.Error -> {
                     _state.update { it.copy(
                         isConnected = false,
@@ -107,13 +104,15 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                     ) }
                 }
             }
-        }.catch { throwable ->
+        }
+            .catch { throwable ->
                 bluetoothController.closeConnection()
                 _state.update { it.copy(
                     isConnected = false,
                     isConnecting = false,
                 ) }
-            }.launchIn(viewModelScope)
+            }
+            .launchIn(viewModelScope)
     }
 
     // clear all bluetooth devices -- not used in app

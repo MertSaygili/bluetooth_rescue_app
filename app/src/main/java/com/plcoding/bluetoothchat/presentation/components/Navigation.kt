@@ -2,16 +2,25 @@ package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.*
@@ -49,7 +58,6 @@ fun Navigation(context: Context) {
             LaunchedEffect(key1 = state.isConnected) {
                 if(state.isConnected) {
                     Toast.makeText(context, "You are connected", Toast.LENGTH_LONG).show()
-
                 }
             }
 
@@ -57,7 +65,14 @@ fun Navigation(context: Context) {
             when{
                 // if devices are connecting then show LoadingScreen()
                 state.isConnecting -> {
-                    LoadingScreen()
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                        Text(text = stringResource(id = R.string.connecting))
+                    }
                 }
                 // if devices are connected shows ChatScreen
                 state.isConnected -> {
