@@ -30,6 +30,10 @@ import com.plcoding.bluetoothchat.presentation.components.screen.*
 fun Navigation(context: Context) {
     val navController = rememberNavController()
 
+    // bluetooth view model state
+    val viewModel = hiltViewModel<BluetoothViewModel>()
+    val state by viewModel.state.collectAsState()
+
     // navigation for app
     NavHost(navController = navController, startDestination = "splash_screen") {
         // opens splash screen immediately
@@ -43,9 +47,6 @@ fun Navigation(context: Context) {
         }
         // nearby bluetooth devices route
         composable(route = Strings.bluetooth_devices_route_name) {
-            // bluetooth view model state
-            val viewModel = hiltViewModel<BluetoothViewModel>()
-            val state by viewModel.state.collectAsState()
 
             // show error message if error occur
             LaunchedEffect(key1 = state.errorMessage) {

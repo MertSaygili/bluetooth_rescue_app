@@ -1,6 +1,7 @@
 package com.plcoding.bluetoothchat.presentation.components.screen
 
 import android.Manifest
+import android.bluetooth.BluetoothDevice
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -20,6 +21,7 @@ import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.CustomAlertDialog
+import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 
 @Composable
@@ -44,7 +46,8 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
     }
 
     val context = LocalContext.current
-    var showDialog by remember { mutableStateOf(false) }
+    var showLocationErrorDialog by remember { mutableStateOf(false) }
+    var showArduinoDevicesDialog by remember { mutableStateOf(false) }
 
 
 //    val db = Room.databaseBuilder(
@@ -84,12 +87,13 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
                             if(LocationController().checkGPSIsOn(context = context)) {
                                 // GPS is On
+                                showArduinoDevicesDialog = true
                                 LocationController().getCurrentCoordinates(fusedLocationClient)
                             }
                             else{
                                 // GPS is off
                                 // shows warning dialog
-                                showDialog = true
+                                showLocationErrorDialog = true
                             }
                         }
                         else -> {
@@ -108,10 +112,22 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                 }
 
                 // shows location alert, if gps is off, alert shows
-                if(showDialog) {
-                    CustomAlertDialog() {
-                        showDialog = false
+                if(showLocationErrorDialog) {
+                    CustomAlertDialog {
+                        showLocationErrorDialog = false
                     }
+                }
+                // shows arduino devices in dialog
+                if(showArduinoDevicesDialog) {
+                    // call discovery
+                    // get bluetooth devices
+                    // send bluetooth devices to dialog
+                    // send bluetooth devices state to
+                    ShowArduinoDevicesDialog (arduinoDevices = emptyList<BluetoothDevice>()) {
+                        showArduinoDevicesDialog = false
+                        // close discovery
+                    }
+
                 }
             }
         }

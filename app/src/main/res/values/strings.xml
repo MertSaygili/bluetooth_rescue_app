@@ -23,6 +23,8 @@
     
     <string name="warning">UYARI</string>
     <string name="open_GPS">Telefonunuzun GPS özelliğini açınız.</string>
+    
+    <string name="nearby_arduino_devices">Bölgedeki Yardım Cihazları</string>
 
 
 </resources>

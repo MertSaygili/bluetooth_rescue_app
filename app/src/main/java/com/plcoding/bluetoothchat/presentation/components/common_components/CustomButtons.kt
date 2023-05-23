@@ -1,14 +1,16 @@
 package com.plcoding.bluetoothchat.presentation.components.common_components
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,6 +46,23 @@ fun CustomSmallButton(textId: Int, colorId: Int, event: () -> Unit) {
         ) {
         CustomMediumText(title = stringResource(id = textId))
     }
+}
+@Composable
+fun CustomIconButton(
+    icon: ImageVector,
+    contentDescription: String,
+    colorId: Int,
+    event: () -> Unit){
+
+    Icon(
+        imageVector = icon,
+        contentDescription = contentDescription,
+        tint = colorResource(colorId),
+        modifier = Modifier
+            .width(30.dp)
+            .height(30.dp)
+            .clickable {event() }
+    )
 }
 
 

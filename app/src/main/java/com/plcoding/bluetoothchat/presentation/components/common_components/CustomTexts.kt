@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.plcoding.bluetoothchat.R
@@ -17,7 +18,8 @@ fun CustomLargeText(title: String){
         text = title,
         color = colorResource(id = R.color.black),
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
+        textAlign = TextAlign.Left,
         modifier = Modifier.padding(16.dp)
     )
 }
