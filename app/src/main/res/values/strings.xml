@@ -25,6 +25,8 @@
     <string name="open_GPS">Telefonunuzun GPS özelliğini açınız.</string>
     
     <string name="nearby_arduino_devices">Bölgedeki Yardım Cihazları</string>
+    <string name="searching_arduino_devices">Bölgedeki yardım cihazları aranıyor…</string>
 
+    <string name="send_location">konum gönder</string>
 
 </resources>

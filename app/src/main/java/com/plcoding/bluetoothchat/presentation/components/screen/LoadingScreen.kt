@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import com.plcoding.bluetoothchat.R
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(titleID: Int) {
     // basic loading indicator and connecting text
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -20,6 +20,6 @@ fun LoadingScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator()
-        Text(text = stringResource(id = R.string.connecting))
+        Text(text = stringResource(id = titleID))
     }
 }

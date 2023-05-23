@@ -2,18 +2,10 @@ package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,6 +16,7 @@ import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.*
+import com.plcoding.bluetoothchat.presentation.sos_view_model.SOSViewModel
 
 
 @Composable
@@ -42,8 +35,30 @@ fun Navigation(context: Context) {
         }
         // home screen route
         composable(route = Strings.home_route_name){
+            val sosViewModel = hiltViewModel<SOSViewModel>()
+            val stateSOS by sosViewModel.state.collectAsState()
             val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-            HomeScreen(navController, fusedLocationClient)
+
+            LaunchedEffect(key1 = stateSOS.errorMessage) {
+                stateSOS.errorMessage?.let{
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                }
+            }
+
+            LaunchedEffect(key1 = stateSOS.messageSend) {
+                stateSOS.messageSend.let{
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                }
+            }
+
+            HomeScreen(
+                navController = navController,
+                fusedLocationClient = fusedLocationClient,
+                searchDevice = sosViewModel::searchDevice,
+                stateSOS = stateSOS,
+                state = state,
+                onStopScan = viewModel::stopScan
+            )
         }
         // nearby bluetooth devices route
         composable(route = Strings.bluetooth_devices_route_name) {
@@ -66,14 +81,7 @@ fun Navigation(context: Context) {
             when{
                 // if devices are connecting then show LoadingScreen()
                 state.isConnecting -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        CircularProgressIndicator()
-                        Text(text = stringResource(id = R.string.connecting))
-                    }
+                    LoadingScreen(titleID = R.string.connecting)
                 }
                 // if devices are connected shows ChatScreen
                 state.isConnected -> {

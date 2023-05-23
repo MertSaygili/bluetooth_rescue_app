@@ -8,6 +8,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,7 @@ fun CustomBluetoothDeviceRow(deviceName: String?, buttonTitle: String, buttonCol
     Row (horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 16.dp, vertical = 2.dp),){
-        Text(text = deviceName ?: "(No name)", modifier = Modifier.padding(8.dp))
+        Text(text = deviceName ?: "(No name)", modifier = Modifier.padding(8.dp).align(Alignment.CenterVertically))
         Button(
             shape = Shapes.medium,
             onClick = buttonEvent,

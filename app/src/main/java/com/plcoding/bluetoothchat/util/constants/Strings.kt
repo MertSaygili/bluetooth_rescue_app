@@ -15,3 +15,9 @@ class Strings {
         const val messageStringTitle = "Acil Konuşma Paneli"
     }
 }
+
+class MACAddresses{
+    companion object{
+        var macAddressOfArduinos = mutableListOf("00:22:09:01:3D:AF")
+    }
+}

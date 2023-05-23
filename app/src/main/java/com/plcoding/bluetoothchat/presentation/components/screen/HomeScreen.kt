@@ -1,7 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.components.screen
 
 import android.Manifest
-import android.bluetooth.BluetoothDevice
 import android.content.pm.PackageManager
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -17,15 +16,24 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.CustomAlertDialog
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
+import com.plcoding.bluetoothchat.presentation.sos_view_model.SOSUiState
+
 
 @Composable
-fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationProviderClient) {
+fun HomeScreen(
+    navController: NavController,
+    fusedLocationClient: FusedLocationProviderClient,
+    searchDevice: (state: BluetoothUiState) -> Unit,
+    stateSOS: SOSUiState,
+    onStopScan: () -> Unit,
+    state: BluetoothUiState) {
 
     // location launcher
     val launcher = rememberLauncherForActivityResult(
@@ -120,14 +128,12 @@ fun HomeScreen(navController: NavController, fusedLocationClient: FusedLocationP
                 // shows arduino devices in dialog
                 if(showArduinoDevicesDialog) {
                     // call discovery
-                    // get bluetooth devices
-                    // send bluetooth devices to dialog
-                    // send bluetooth devices state to
-                    ShowArduinoDevicesDialog (arduinoDevices = emptyList<BluetoothDevice>()) {
-                        showArduinoDevicesDialog = false
-                        // close discovery
-                    }
+                    searchDevice(state)
 
+                    ShowArduinoDevicesDialog (arduinoDevices = stateSOS.devices, stateSOS = stateSOS) {
+                        showArduinoDevicesDialog = false
+                        onStopScan()
+                    }
                 }
             }
         }

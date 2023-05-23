@@ -1,13 +1,11 @@
 package com.plcoding.bluetoothchat.data.chat
 
 import android.Manifest
-import android.R
 import android.annotation.SuppressLint
 import android.bluetooth.*
 import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.util.Log
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage
@@ -17,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.reflect.Method
 import java.util.*
 
 @SuppressLint("MissingPermission") // Permissions are controlling my hand
@@ -193,7 +190,6 @@ class AndroidBluetoothController(private val context: Context): BluetoothControl
 
         return bluetoothMessage
     }
-
 
     override fun closeConnection() {
         currentClientSocket?.close()
