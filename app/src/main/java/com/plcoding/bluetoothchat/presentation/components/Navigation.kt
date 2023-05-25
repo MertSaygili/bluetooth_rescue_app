@@ -45,11 +45,11 @@ fun Navigation(context: Context) {
                 }
             }
 
-            LaunchedEffect(key1 = stateSOS.messageSend) {
-                stateSOS.messageSend.let{
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                }
-            }
+//            LaunchedEffect(key1 = stateSOS.messageSend) {
+//                stateSOS.messageSend.let{
+//                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+//                }
+//            }
 
             HomeScreen(
                 navController = navController,
