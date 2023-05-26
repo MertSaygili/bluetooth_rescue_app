@@ -1,5 +1,7 @@
 package com.plcoding.bluetoothchat.domain.chat
 
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
+
 // results of bluetooth device decide tree
 sealed interface ConnectionResult {
     object ConnectionEstablished : ConnectionResult

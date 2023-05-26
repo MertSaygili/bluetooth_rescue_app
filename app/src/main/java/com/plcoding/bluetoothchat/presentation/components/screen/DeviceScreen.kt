@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.presentation.components.common_components.*
 

@@ -1,7 +1,7 @@
 package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
-import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 
 data class BluetoothUiState (
     // devices control

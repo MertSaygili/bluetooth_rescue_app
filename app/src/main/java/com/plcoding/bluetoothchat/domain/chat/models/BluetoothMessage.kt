@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.domain.chat
+package com.plcoding.bluetoothchat.domain.chat.models
 
 // data class for bluetooth messages
 data class BluetoothMessage(

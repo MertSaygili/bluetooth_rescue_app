@@ -1,12 +1,9 @@
 package com.plcoding.bluetoothchat.presentation.view_models.sos_view_model
 
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 
 
 data class SOSUiState (
-    // scanned and paired devices
-    var scannedDevices: List<BluetoothDevice> = emptyList(),
-    val pairedDevices: List<BluetoothDevice> = emptyList(),
     // filtered devices
     var devices : List<BluetoothDevice> = emptyList(),
     // for loading indicator

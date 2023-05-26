@@ -1,6 +1,7 @@
 package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,8 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.domain.chat.BluetoothController
-import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.*
@@ -59,25 +58,23 @@ fun Navigation(context: Context) {
                         navController = navController,
                         fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
-                        clearState = sosViewModel:: clearState,
-                        stateSOS = stateSOS,
-                        state = state,
-                        onStopScan = viewModel::stopScan,
                         isSearchingDevice = true,
                         showArduinoDevices = false,
+                        filterFunction = sosViewModel::filterBluetoothDevices,
+                        stateSOS = stateSOS
                     )
                 }
                 stateSOS.isFindDevice -> {
+                    Log.d("Success", "00${stateSOS.devices}")
+
                     HomeScreen(
                         navController = navController,
                         fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
-                        clearState = sosViewModel:: clearState,
-                        stateSOS = stateSOS,
-                        state = state,
-                        onStopScan = viewModel::stopScan,
                         isSearchingDevice = false,
                         showArduinoDevices = true,
+                        filterFunction = sosViewModel::filterBluetoothDevices,
+                        stateSOS = stateSOS
                     )
                 }
                 else -> {
@@ -85,12 +82,10 @@ fun Navigation(context: Context) {
                         navController = navController,
                         fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
-                        clearState = sosViewModel:: clearState,
-                        stateSOS = stateSOS,
-                        state = state,
-                        onStopScan = viewModel::stopScan,
                         isSearchingDevice = false,
                         showArduinoDevices = false,
+                        filterFunction = sosViewModel::filterBluetoothDevices,
+                        stateSOS = stateSOS
                     )
                 }
             }

@@ -1,7 +1,7 @@
 package com.plcoding.bluetoothchat.data.chat
 
 import android.bluetooth.BluetoothSocket
-import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 import com.plcoding.bluetoothchat.domain.chat.TransferFailedException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

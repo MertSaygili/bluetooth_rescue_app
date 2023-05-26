@@ -3,7 +3,7 @@ package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

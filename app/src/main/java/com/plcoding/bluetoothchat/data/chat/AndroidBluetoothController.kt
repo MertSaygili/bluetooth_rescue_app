@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDeviceDomain
-import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDeviceDomain
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +31,6 @@ class AndroidBluetoothController(private val context: Context): BluetoothControl
 
     private val _isConnected = MutableStateFlow(false)
     override val isConnected: StateFlow<Boolean> get() = _isConnected.asStateFlow()
-
 
     private val _pairedDevices = MutableStateFlow<List<BluetoothDeviceDomain>>(emptyList())
     override val pairedDevices: StateFlow<List<BluetoothDeviceDomain>> get() = _pairedDevices.asStateFlow()

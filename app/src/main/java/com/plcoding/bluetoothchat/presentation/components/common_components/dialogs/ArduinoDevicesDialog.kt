@@ -1,7 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.components.common_components.dialogs
 
-import android.annotation.SuppressLint
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,38 +9,25 @@ import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomBluetoothDeviceRow
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomDivider
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomIconButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomLargeText
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
-import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 
 @Composable
-fun ShowArduinoDevicesDialog(arduinoDevices: List<BluetoothDevice>, stateSOS: SOSUiState, closeButton: () -> Unit) {
-    when{
-       stateSOS.isLoading -> {
-            // searching for arduino device
-            LoadingDialog(titleID = R.string.searching_arduino_devices, closeButton)
-        }
-        stateSOS.isFindDevice -> {
-            BaseDialog(arduinoDevices = stateSOS.devices) {
-                closeButton()
-            }
-        }
+fun ShowArduinoDevicesDialog(stateSOS: SOSUiState, filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>, closeButton: () -> Unit) {
+    val devices: List<BluetoothDevice> = filterFunction(stateSOS.devices)
+    BaseDialog(arduinoDevices = devices) {
+        closeButton()
     }
 }
 

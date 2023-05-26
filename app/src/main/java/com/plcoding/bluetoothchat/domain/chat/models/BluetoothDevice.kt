@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.domain.chat
+package com.plcoding.bluetoothchat.domain.chat.models
 
 typealias BluetoothDeviceDomain = BluetoothDevice
 

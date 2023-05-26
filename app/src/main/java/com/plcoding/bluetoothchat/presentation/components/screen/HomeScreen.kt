@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
@@ -31,13 +32,11 @@ import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiS
 fun HomeScreen(
     navController: NavController,
     fusedLocationClient: FusedLocationProviderClient,
-    searchDevice: (state: BluetoothUiState) -> Unit,
-    clearState: () -> Unit,
-    stateSOS: SOSUiState,
-    onStopScan: () -> Unit,
+    searchDevice: () -> Unit,
     isSearchingDevice: Boolean,
     showArduinoDevices: Boolean,
-    state: BluetoothUiState
+    filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>,
+    stateSOS: SOSUiState,
 ) {
 
     // location launcher
@@ -46,13 +45,11 @@ fun HomeScreen(
     ) { permissions ->
         when {
             permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                Log.d("Success", "Suan buradayim 1")
+                // only fine location access granted.
             }
             permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                Log.d("Success", "Suan buradayim 2")
                 // Only approximate location access granted.
             } else -> {
-            Log.d("Success", "Suan hicbir yerdeyim 0")
             // No location access granted.
             }
         }
@@ -101,8 +98,7 @@ fun HomeScreen(
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
                             if(LocationController().checkGPSIsOn(context = context)) {
                                 // GPS is On
-
-                                searchDevice(state)
+                                searchDevice()
                                 LocationController().getCurrentCoordinates(fusedLocationClient)
                             }
                             else{
@@ -137,20 +133,16 @@ fun HomeScreen(
                 if(showLocationErrorDialog) {
                     CustomAlertDialog {
                         showLocationErrorDialog = false
-                        onStopScan()
-                        clearState()
+
                     }
                 }
 
                 // shows arduino devices
                 if(showArduinoDevicesDialog) {
-                    ShowArduinoDevicesDialog (arduinoDevices = stateSOS.devices, stateSOS = stateSOS) {
+                    ShowArduinoDevicesDialog (stateSOS = stateSOS, filterFunction = filterFunction) {
                         showArduinoDevicesDialog = false
-                        onStopScan()
-                        clearState()
                     }
                 }
-
             }
         }
     }
