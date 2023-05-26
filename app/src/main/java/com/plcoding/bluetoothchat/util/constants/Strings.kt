@@ -13,6 +13,10 @@ class Strings {
         // db constants
         const val db_name = "message"
         const val messageStringTitle = "Acil Konuşma Paneli"
+
+
+        // error messages
+        const val notFindSOSDevice = "Yakınlarda yardım cihazı bulunamamıştır, lütfen sonra deneyiniz!!!"
     }
 }
 

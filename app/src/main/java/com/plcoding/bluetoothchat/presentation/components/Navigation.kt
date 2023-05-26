@@ -13,10 +13,12 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.R
+import com.plcoding.bluetoothchat.domain.chat.BluetoothController
+import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.util.constants.Strings
-import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothViewModel
+import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.*
-import com.plcoding.bluetoothchat.presentation.sos_view_model.SOSViewModel
+import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSViewModel
 
 
 @Composable
@@ -45,20 +47,53 @@ fun Navigation(context: Context) {
                 }
             }
 
-//            LaunchedEffect(key1 = stateSOS.messageSend) {
-//                stateSOS.messageSend.let{
-//                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-//                }
-//            }
+            LaunchedEffect(key1 = stateSOS.notFindAnyDevice) {
+                if(stateSOS.notFindAnyDevice == true) {
+                    Toast.makeText(context, Strings.notFindSOSDevice, Toast.LENGTH_LONG).show()
+                }
+            }
 
-            HomeScreen(
-                navController = navController,
-                fusedLocationClient = fusedLocationClient,
-                searchDevice = sosViewModel::searchDevice,
-                stateSOS = stateSOS,
-                state = state,
-                onStopScan = viewModel::stopScan
-            )
+            when{
+                stateSOS.isLoading -> {
+                    HomeScreen(
+                        navController = navController,
+                        fusedLocationClient = fusedLocationClient,
+                        searchDevice = sosViewModel::searchDevice,
+                        clearState = sosViewModel:: clearState,
+                        stateSOS = stateSOS,
+                        state = state,
+                        onStopScan = viewModel::stopScan,
+                        isSearchingDevice = true,
+                        showArduinoDevices = false,
+                    )
+                }
+                stateSOS.isFindDevice -> {
+                    HomeScreen(
+                        navController = navController,
+                        fusedLocationClient = fusedLocationClient,
+                        searchDevice = sosViewModel::searchDevice,
+                        clearState = sosViewModel:: clearState,
+                        stateSOS = stateSOS,
+                        state = state,
+                        onStopScan = viewModel::stopScan,
+                        isSearchingDevice = false,
+                        showArduinoDevices = true,
+                    )
+                }
+                else -> {
+                    HomeScreen(
+                        navController = navController,
+                        fusedLocationClient = fusedLocationClient,
+                        searchDevice = sosViewModel::searchDevice,
+                        clearState = sosViewModel:: clearState,
+                        stateSOS = stateSOS,
+                        state = state,
+                        onStopScan = viewModel::stopScan,
+                        isSearchingDevice = false,
+                        showArduinoDevices = false,
+                    )
+                }
+            }
         }
         // nearby bluetooth devices route
         composable(route = Strings.bluetooth_devices_route_name) {

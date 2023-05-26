@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.presentation.bluetooth_view_model
+package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

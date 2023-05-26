@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.presentation.components.common_components.ChatMessage
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.util.constants.Strings

@@ -1,4 +1,4 @@
-package com.plcoding.bluetoothchat.presentation.bluetooth_view_model
+package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 
 import com.plcoding.bluetoothchat.domain.chat.BluetoothDevice
 import com.plcoding.bluetoothchat.domain.chat.BluetoothMessage

@@ -16,14 +16,15 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
-import com.plcoding.bluetoothchat.presentation.bluetooth_view_model.BluetoothUiState
+import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.CustomAlertDialog
+import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.LoadingDialog
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
-import com.plcoding.bluetoothchat.presentation.sos_view_model.SOSUiState
+import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
 
 
 @Composable
@@ -31,9 +32,13 @@ fun HomeScreen(
     navController: NavController,
     fusedLocationClient: FusedLocationProviderClient,
     searchDevice: (state: BluetoothUiState) -> Unit,
+    clearState: () -> Unit,
     stateSOS: SOSUiState,
     onStopScan: () -> Unit,
-    state: BluetoothUiState) {
+    isSearchingDevice: Boolean,
+    showArduinoDevices: Boolean,
+    state: BluetoothUiState
+) {
 
     // location launcher
     val launcher = rememberLauncherForActivityResult(
@@ -55,7 +60,8 @@ fun HomeScreen(
 
     val context = LocalContext.current
     var showLocationErrorDialog by remember { mutableStateOf(false) }
-    var showArduinoDevicesDialog by remember { mutableStateOf(false) }
+    var searchingDevices by remember { mutableStateOf(isSearchingDevice) }
+    var showArduinoDevicesDialog by remember { mutableStateOf(showArduinoDevices) }
 
 
 //    val db = Room.databaseBuilder(
@@ -95,7 +101,8 @@ fun HomeScreen(
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
                             if(LocationController().checkGPSIsOn(context = context)) {
                                 // GPS is On
-                                showArduinoDevicesDialog = true
+
+                                searchDevice(state)
                                 LocationController().getCurrentCoordinates(fusedLocationClient)
                             }
                             else{
@@ -119,22 +126,31 @@ fun HomeScreen(
                     navController.navigate(Strings.bluetooth_devices_route_name)
                 }
 
+                // show loadingIndicator
+                if(searchingDevices){
+                    LoadingDialog(titleID = R.string.searching_arduino_devices) {
+                        searchingDevices = false
+                    }
+                }
+
                 // shows location alert, if gps is off, alert shows
                 if(showLocationErrorDialog) {
                     CustomAlertDialog {
                         showLocationErrorDialog = false
+                        onStopScan()
+                        clearState()
                     }
                 }
-                // shows arduino devices in dialog
-                if(showArduinoDevicesDialog) {
-                    // call discovery
-                    searchDevice(state)
 
+                // shows arduino devices
+                if(showArduinoDevicesDialog) {
                     ShowArduinoDevicesDialog (arduinoDevices = stateSOS.devices, stateSOS = stateSOS) {
                         showArduinoDevicesDialog = false
                         onStopScan()
+                        clearState()
                     }
                 }
+
             }
         }
     }
