@@ -96,4 +96,7 @@ dependencies {
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:2.5.1")
 
+    // custom toast
+    implementation 'io.github.shashank02051997:FancyToast:2.0.2'
+
 }

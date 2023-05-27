@@ -6,6 +6,10 @@ fun BluetoothMessage.toByteArray() : ByteArray {
     return "$senderName#$message".encodeToByteArray()
 }
 
+fun String.toByteArray() : ByteArray{
+    return this.encodeToByteArray()
+}
+
 fun String.toBluetoothMessage(isFromLocalUser: Boolean) : BluetoothMessage {
     val senderName = substringBeforeLast("#")
     val message = substringAfter("#")

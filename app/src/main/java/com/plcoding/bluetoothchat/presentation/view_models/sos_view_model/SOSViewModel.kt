@@ -1,10 +1,12 @@
 package com.plcoding.bluetoothchat.presentation.view_models.sos_view_model
 
 import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.bluetoothchat.domain.chat.SOSMessageController
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
+import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 import com.plcoding.bluetoothchat.util.constants.MACAddresses
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -30,7 +32,7 @@ class SOSViewModel @Inject constructor(private val sosMessageController: SOSMess
         sosMessageController.stopDiscovery()
     }
 
-     fun searchDevice() {
+    fun searchDevice() {
          _state.update { it.copy(isLoading = true) }
          startDiscovery()
 
@@ -47,6 +49,14 @@ class SOSViewModel @Inject constructor(private val sosMessageController: SOSMess
              }, 4000
          )
      }
+
+    fun connectToDevice(device : BluetoothDevice) {
+        Log.d("Success", "before function call...")
+        sosMessageController.connectToDevice(device = device)
+        sosMessageController.sendLocation("sss")
+        sosMessageController.closeSocketConnection()
+
+    }
 
     private fun check() {
         if ((_state.value.devices).isEmpty()) {

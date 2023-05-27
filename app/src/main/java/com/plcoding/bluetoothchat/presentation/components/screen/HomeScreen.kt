@@ -2,7 +2,6 @@ package com.plcoding.bluetoothchat.presentation.components.screen
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -17,7 +16,6 @@ import androidx.navigation.NavController
 import com.google.android.gms.location.*
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
-import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothUiState
 import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomAppbar
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomHorizontalButton
@@ -26,6 +24,8 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.dial
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
+import kotlin.reflect.KFunction1
+import kotlin.reflect.KFunction2
 
 
 @Composable
@@ -36,6 +36,7 @@ fun HomeScreen(
     isSearchingDevice: Boolean,
     showArduinoDevices: Boolean,
     filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>,
+    connectToDevice: KFunction1<BluetoothDevice, Unit>,
     stateSOS: SOSUiState,
 ) {
 
@@ -99,7 +100,6 @@ fun HomeScreen(
                             if(LocationController().checkGPSIsOn(context = context)) {
                                 // GPS is On
                                 searchDevice()
-                                LocationController().getCurrentCoordinates(fusedLocationClient)
                             }
                             else{
                                 // GPS is off
@@ -139,7 +139,7 @@ fun HomeScreen(
 
                 // shows arduino devices
                 if(showArduinoDevicesDialog) {
-                    ShowArduinoDevicesDialog (stateSOS = stateSOS, filterFunction = filterFunction) {
+                    ShowArduinoDevicesDialog (stateSOS = stateSOS, filterFunction = filterFunction,  connectToDevice =  connectToDevice) {
                         showArduinoDevicesDialog = false
                     }
                 }

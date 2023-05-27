@@ -13,5 +13,7 @@ interface SOSMessageController {
     // override functions
     fun stopDiscovery()
     fun startDiscovery()
-    fun connectToDevice(device: BluetoothDevice) : Flow<ConnectionResult>
+    fun closeSocketConnection()
+    fun connectToDevice(device: BluetoothDevice)
+    fun sendLocation(location: String)
 }

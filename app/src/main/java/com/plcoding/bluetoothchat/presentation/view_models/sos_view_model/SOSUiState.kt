@@ -13,7 +13,7 @@ data class SOSUiState (
     // is not find any device, show TOAST message
     val notFindAnyDevice : Boolean? = null,
     // is message send successfully?
-    val messageSend: Boolean = false,
+    val locationSend: Boolean = false,
     // if error occur show TOAST message, and error message content of it
     val errorMessage: String? = null,
 )

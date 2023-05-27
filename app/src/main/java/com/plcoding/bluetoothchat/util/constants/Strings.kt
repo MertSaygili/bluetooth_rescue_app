@@ -15,8 +15,10 @@ class Strings {
         const val messageStringTitle = "Acil Konuşma Paneli"
 
 
-        // error messages
+        // toast messages
         const val notFindSOSDevice = "Yakınlarda yardım cihazı bulunamamıştır, lütfen sonra deneyiniz!!!"
+        const val connectionMade = "Bağlantı kuruldu."
+        const val locationSend = "Konumunuz yetkililere bildirildi."
     }
 }
 

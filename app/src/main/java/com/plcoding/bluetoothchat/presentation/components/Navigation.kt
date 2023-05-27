@@ -2,7 +2,6 @@ package com.plcoding.bluetoothchat.presentation.components
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,11 +17,14 @@ import com.plcoding.bluetoothchat.util.constants.Strings
 import com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model.BluetoothViewModel
 import com.plcoding.bluetoothchat.presentation.components.screen.*
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSViewModel
+import com.plcoding.bluetoothchat.util.toasts.CustomToasts
+import com.shashank.sony.fancytoastlib.FancyToast
 
 
 @Composable
 fun Navigation(context: Context) {
     val navController = rememberNavController()
+    val customToasts : CustomToasts = CustomToasts()
 
     // bluetooth view model state
     val viewModel = hiltViewModel<BluetoothViewModel>()
@@ -35,6 +37,8 @@ fun Navigation(context: Context) {
             SplashScreen(navController = navController)
         }
         // home screen route
+
+
         composable(route = Strings.home_route_name){
             val sosViewModel = hiltViewModel<SOSViewModel>()
             val stateSOS by sosViewModel.state.collectAsState()
@@ -42,13 +46,19 @@ fun Navigation(context: Context) {
 
             LaunchedEffect(key1 = stateSOS.errorMessage) {
                 stateSOS.errorMessage?.let{
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    customToasts.customToast(context, it, FancyToast.DEFAULT)
                 }
             }
 
             LaunchedEffect(key1 = stateSOS.notFindAnyDevice) {
                 if(stateSOS.notFindAnyDevice == true) {
-                    Toast.makeText(context, Strings.notFindSOSDevice, Toast.LENGTH_LONG).show()
+                    customToasts.customToast(context, Strings.notFindSOSDevice, FancyToast.DEFAULT)
+                }
+            }
+
+            LaunchedEffect(key1 = stateSOS.locationSend) {
+                if(stateSOS.locationSend){
+                    customToasts.customToast(context, Strings.locationSend, FancyToast.DEFAULT)
                 }
             }
 
@@ -61,7 +71,8 @@ fun Navigation(context: Context) {
                         isSearchingDevice = true,
                         showArduinoDevices = false,
                         filterFunction = sosViewModel::filterBluetoothDevices,
-                        stateSOS = stateSOS
+                        stateSOS = stateSOS,
+                        connectToDevice = sosViewModel::connectToDevice,
                     )
                 }
                 stateSOS.isFindDevice -> {
@@ -74,7 +85,8 @@ fun Navigation(context: Context) {
                         isSearchingDevice = false,
                         showArduinoDevices = true,
                         filterFunction = sosViewModel::filterBluetoothDevices,
-                        stateSOS = stateSOS
+                        stateSOS = stateSOS,
+                        connectToDevice = sosViewModel::connectToDevice,
                     )
                 }
                 else -> {
@@ -85,7 +97,8 @@ fun Navigation(context: Context) {
                         isSearchingDevice = false,
                         showArduinoDevices = false,
                         filterFunction = sosViewModel::filterBluetoothDevices,
-                        stateSOS = stateSOS
+                        stateSOS = stateSOS,
+                        connectToDevice = sosViewModel::connectToDevice,
                     )
                 }
             }
@@ -96,14 +109,14 @@ fun Navigation(context: Context) {
             // show error message if error occur
             LaunchedEffect(key1 = state.errorMessage) {
                 state.errorMessage?.let{
-                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                    customToasts.customToast(context, it, FancyToast.DEFAULT)
                 }
             }
 
             // when devices are connect shows this message
             LaunchedEffect(key1 = state.isConnected) {
                 if(state.isConnected) {
-                    Toast.makeText(context, "You are connected", Toast.LENGTH_LONG).show()
+                    customToasts.customToast(context, Strings.connectionMade, FancyToast.DEFAULT)
                 }
             }
 

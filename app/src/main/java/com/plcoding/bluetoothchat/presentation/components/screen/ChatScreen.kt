@@ -36,7 +36,6 @@ fun ChatScreen(
         mutableStateOf("")
     }
     val keyboardController = LocalSoftwareKeyboardController.current
-
     Scaffold(
         topBar = { CustomAppbar(
             context = context,

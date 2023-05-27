@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.plcoding.bluetoothchat.R
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
@@ -22,17 +24,18 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.Cust
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomIconButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomLargeText
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
+import kotlin.reflect.KFunction2
 
 @Composable
-fun ShowArduinoDevicesDialog(stateSOS: SOSUiState, filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>, closeButton: () -> Unit) {
+fun ShowArduinoDevicesDialog(stateSOS: SOSUiState, filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>, connectToDevice: (BluetoothDevice) -> Unit, closeButton: () -> Unit) {
     val devices: List<BluetoothDevice> = filterFunction(stateSOS.devices)
-    BaseDialog(arduinoDevices = devices) {
+    BaseDialog(arduinoDevices = devices,  connectToDevice = connectToDevice) {
         closeButton()
     }
 }
 
 @Composable
-fun BaseDialog(arduinoDevices: List<BluetoothDevice>, closeButton: () -> Unit) {
+fun BaseDialog(arduinoDevices: List<BluetoothDevice>, connectToDevice: (device: BluetoothDevice) -> Unit, closeButton: () -> Unit) {
     Dialog(
         onDismissRequest = {},
         content = {
@@ -62,10 +65,15 @@ fun BaseDialog(arduinoDevices: List<BluetoothDevice>, closeButton: () -> Unit) {
                         }
                         items(arduinoDevices) { device ->
                             CustomBluetoothDeviceRow(deviceName = device.name, buttonTitle = stringResource(id = R.string.send_location), buttonColorId = R.color.success){
-
+                                connectToDevice(device)
                             }
                         }
                     }
+                    Text(
+                        "Mesaj göndermeden önce bluetooth ayarları kısmından cihazları bağlayınız",
+                        color = Color.Gray,
+                        fontSize = 12.sp
+                    )
                 }
             }
         }

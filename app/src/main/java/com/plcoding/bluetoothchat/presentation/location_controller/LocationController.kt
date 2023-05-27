@@ -16,12 +16,15 @@ class LocationController{
 
     // gets current location of user
     @SuppressLint("MissingPermission")
-    fun getCurrentCoordinates(fusedLocationClient: FusedLocationProviderClient) {
+    fun getCurrentCoordinates(fusedLocationClient: FusedLocationProviderClient) : String {
+        var location : Location? = null
         fusedLocationClient.lastLocation
-            .addOnSuccessListener { location : Location? ->
+            .addOnSuccessListener { locate : Location?  ->
                 Log.d("Success", location?.latitude.toString() + " - " + location?.longitude.toString() )
                 // Got last known location. In some rare situations this can be null.
+                location = locate
             }
+        return "latitude = ${location?.latitude} - longitude = ${location?.longitude}"
     }
 
 }

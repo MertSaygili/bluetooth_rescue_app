@@ -3,9 +3,10 @@ package com.plcoding.bluetoothchat.data.chat
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.IntentFilter
-import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
+import android.util.Log
 import com.plcoding.bluetoothchat.domain.chat.SOSMessageController
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDeviceDomain
@@ -13,6 +14,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.util.*
 
 
 @SuppressLint("MissingPermission")
@@ -47,6 +51,8 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         }
     }
 
+    private var bluetoothSocket : BluetoothSocket? = null
+
     init {
         updatePairedDevices()
         context.registerReceiver(
@@ -70,13 +76,69 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         bluetoothAdapter?.startDiscovery()
     }
 
-    override fun connectToDevice(device: BluetoothDevice): Flow<ConnectionResult> {
-        TODO("Not yet implemented")
+    override fun connectToDevice(device: BluetoothDevice){
+        Log.d("Success", "before socket")
+        bluetoothSocket = bluetoothAdapter
+            ?.getRemoteDevice(device.address)
+            ?.createRfcommSocketToServiceRecord((
+                UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+            ))
+        stopDiscovery()
+
+        Log.d("Success", "after socket")
+
+
+        bluetoothSocket?.let { socket ->
+            try {
+                socket.connect()
+                Log.d("Success", "Socket connected")
+
+            } catch(e: IOException) {
+                socket.close()
+                Log.d("Success", e.message.toString())
+            }
+        }
+
     }
+
 
     override fun stopDiscovery() {
         bluetoothAdapter?.cancelDiscovery()
     }
+
+    override fun closeSocketConnection() {
+        bluetoothSocket?.close()
+    }
+
+     override fun sendLocation (location: String) {
+        var outStream = bluetoothSocket?.outputStream
+        try {
+            outStream = bluetoothSocket?.outputStream
+        } catch (e: IOException) {
+            Log.d("Success", "Bug BEFORE Sending stuff", e)
+        }
+        val msgBuffer = location.toByteArray()
+
+        try {
+            outStream?.write(msgBuffer)
+        } catch (e: IOException) {
+            Log.d("Success", "Bug while sending stuff", e)
+        }
+
+    }
+
+//     suspend fun sendLocation(location: String): Boolean {
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                bluetoothSocket?.outputStream?.write(location.toByteArray())
+//            } catch(e: IOException) {
+//                e.printStackTrace()
+//                return@withContext false
+//            }
+//            true
+//        }
+//    }
+
 
     private fun updatePairedDevices() {
         bluetoothAdapter
