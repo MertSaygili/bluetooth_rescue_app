@@ -12,6 +12,9 @@ interface MessageDao {
     @Query("SELECT * FROM message")
     fun getAll(): List<Message>
 
+    @Query("SELECT * FROM message Where sender=(:sender)")
+    fun getMessagesBySender(sender:String): List<Message>
+
     @Query("SELECT * FROM message WHERE uid IN (:userIds)")
     fun loadAllByIds(userIds: IntArray): List<Message>
 

@@ -1,18 +1,28 @@
 package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.plcoding.bluetoothchat.database.AppDatabase
 import com.plcoding.bluetoothchat.domain.chat.BluetoothController
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
+import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
+import com.plcoding.bluetoothchat.entities.Message
+import com.plcoding.bluetoothchat.util.constants.Strings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class BluetoothViewModel @Inject constructor(private val bluetoothController: BluetoothController): ViewModel() {
+class BluetoothViewModel @Inject constructor(private val bluetoothController: BluetoothController,@ApplicationContext application: Context): ViewModel() {
     // this file for bluetooth state control and bluetooth functions
     private val _state = MutableStateFlow(BluetoothUiState())
     val state = combine(bluetoothController.scannedDevices, bluetoothController.pairedDevices, _state) { scannedDevices, pairedDevices, state ->
@@ -23,11 +33,34 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
+
+    var db = Room.databaseBuilder(
+        application,
+        AppDatabase::class.java, Strings.db_name
+    ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
+
     private var deviceConnectionJob: Job? = null
+    private var device:BluetoothDeviceDomain? = null;
 
     init{
         bluetoothController.isConnected.onEach { isConnected->
             _state.update { it.copy(isConnected = isConnected) }
+            _state.update {
+                val messageDao = this.db.messageDao()
+
+                val messages: List<Message> = messageDao.getMessagesBySender(device?.address.toString())
+                val bluetoothMessages = arrayListOf<BluetoothMessage>();
+                for(item:Message in messages){
+                    if(item.isMe != null && item.content != null && item.sender != null){
+                        val bluetoothMessage = BluetoothMessage(message=item.content, senderName = item.sender, isFromLocalUser = item.isMe)
+                        bluetoothMessages.add(bluetoothMessage);
+                    }
+
+                }
+                it.copy(
+                    messages = bluetoothMessages
+                )
+            }
         }.launchIn(viewModelScope)
 
         bluetoothController.errors.onEach {  error->
@@ -39,6 +72,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
     fun connectToDevice(device: BluetoothDeviceDomain) {
         _state.update { it.copy(isConnecting = true) }
         deviceConnectionJob = bluetoothController.connectToDevice(device).listen()
+        this.device = device
     }
 
     // disconnect from device -- not works - unpairing
@@ -62,6 +96,22 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
 
     // sends message to other device
     fun sendMessage(message: String) {
+
+        // content
+        Log.d("message",message);
+        // device mac address
+        Log.d("device",this.device?.address.toString());
+
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+
+        val messageDao = this.db.messageDao()
+        val newMessage = Message(content=message,sender=this.device?.address.toString(),time=currentDate,isMe=true)
+        messageDao.insertAll(newMessage)
+
+        val messages: List<Message> = messageDao.getMessagesBySender(device?.address.toString())
+        Log.d("Omer",messages.toString())
+
         viewModelScope.launch {
             val bluetoothMessage = bluetoothController.trySendMessage(message)
             if(bluetoothMessage != null) {
@@ -95,6 +145,14 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                     _state.update { it.copy(
                         messages = it.messages + result.message
                     ) }
+                    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                    val currentDate = sdf.format(Date())
+                    val messageDao = db.messageDao()
+                    val newMessage = Message(content=result.message.message,sender=device?.address.toString(),time=currentDate,isMe=false)
+                    messageDao.insertAll(newMessage)
+
+                    val messages: List<Message> = messageDao.getMessagesBySender(device?.address.toString())
+                    Log.d("Come Messages",messages.toString())
                 }
                 is ConnectionResult.Error -> {
                     _state.update { it.copy(
