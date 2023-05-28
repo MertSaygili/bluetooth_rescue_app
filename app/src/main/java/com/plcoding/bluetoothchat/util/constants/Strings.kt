@@ -19,11 +19,12 @@ class Strings {
         const val notFindSOSDevice = "Yakınlarda yardım cihazı bulunamamıştır, lütfen sonra deneyiniz!!!"
         const val connectionMade = "Bağlantı kuruldu."
         const val locationSend = "Konumunuz yetkililere bildirildi."
+        const val hintArduinoHelpText = "Konum göndere basmadan önce cihazınızın mesaj göndermek istediğiniz cihaza bağlı olduğundan emin olunuz."
     }
 }
 
 class MACAddresses{
     companion object{
-        var macAddressOfArduinos = mutableListOf("00:22:09:01:3D:AF")
+        var macAddressOfArduinos = mutableListOf("00:22:09:01:3D:AF", "00:19:10:08:39:47")
     }
 }

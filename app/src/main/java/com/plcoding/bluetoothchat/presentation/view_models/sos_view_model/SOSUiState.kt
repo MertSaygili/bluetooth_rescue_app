@@ -1,5 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.view_models.sos_view_model
 
+import android.text.BoringLayout
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 
 

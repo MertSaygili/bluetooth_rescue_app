@@ -54,7 +54,9 @@ class SOSViewModel @Inject constructor(private val sosMessageController: SOSMess
         Log.d("Success", "before function call...")
         sosMessageController.connectToDevice(device = device)
         sosMessageController.sendLocation("sss")
-        sosMessageController.closeSocketConnection()
+//        Handler().postDelayed({
+//            sosMessageController.closeSocketConnection()
+//        }, 2000)
 
     }
 

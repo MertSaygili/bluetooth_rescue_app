@@ -1,6 +1,5 @@
 package com.plcoding.bluetoothchat.presentation.components.common_components.dialogs
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +23,7 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.Cust
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomIconButton
 import com.plcoding.bluetoothchat.presentation.components.common_components.CustomLargeText
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
-import kotlin.reflect.KFunction2
+import com.plcoding.bluetoothchat.util.constants.Strings
 
 @Composable
 fun ShowArduinoDevicesDialog(stateSOS: SOSUiState, filterFunction: (List<BluetoothDevice>) -> List<BluetoothDevice>, connectToDevice: (BluetoothDevice) -> Unit, closeButton: () -> Unit) {
@@ -67,13 +66,16 @@ fun BaseDialog(arduinoDevices: List<BluetoothDevice>, connectToDevice: (device: 
                             CustomBluetoothDeviceRow(deviceName = device.name, buttonTitle = stringResource(id = R.string.send_location), buttonColorId = R.color.success){
                                 connectToDevice(device)
                             }
+                            if(arduinoDevices.last() == device) {
+                                Text(
+                                    Strings.hintArduinoHelpText,
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.padding(top = 10.dp, start = 15.dp, end = 5.dp, bottom = 2.dp),
+                                )
+                            }
                         }
                     }
-                    Text(
-                        "Mesaj göndermeden önce bluetooth ayarları kısmından cihazları bağlayınız",
-                        color = Color.Gray,
-                        fontSize = 12.sp
-                    )
                 }
             }
         }

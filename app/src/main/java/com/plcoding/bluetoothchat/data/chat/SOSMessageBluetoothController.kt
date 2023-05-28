@@ -121,6 +121,7 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
 
         try {
             outStream?.write(msgBuffer)
+            bluetoothSocket?.close()
         } catch (e: IOException) {
             Log.d("Success", "Bug while sending stuff", e)
         }
