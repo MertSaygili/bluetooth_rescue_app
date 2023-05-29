@@ -16,9 +16,9 @@ Biz bu uygulamayı test ederken elimizdeki arduino cihazına HC-05, ve HC-06 mod
 - Mesajlaşma ekranına gelmiş kullanıcılar bağlantı korunduğu sürece birbiriyle mesajlaşabilirler. Bağlantı bozulduğunda kullanıcıya hata verilir ve önceki sayfaya yönlendirilir.
 
 <p align="center">
-  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/41d7a2ed-a9ff-4766-93e9-1c9f8c7bee96" height = "600" width = "33%"></img>
-  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/d56c2191-179b-4846-94f4-ed8f4843b427" height = "600" width = "33%"></img>
-  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/cb5ba0b2-e42e-4f0a-8f7b-c09d3c3c19a0" height = "600" width = "33%"></img>
+  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/41d7a2ed-a9ff-4766-93e9-1c9f8c7bee96" height = "600" width = "30%"></img>
+  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/d56c2191-179b-4846-94f4-ed8f4843b427" height = "600" width = "30%"></img>
+  <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/cb5ba0b2-e42e-4f0a-8f7b-c09d3c3c19a0" height = "600" width = "30%"></img>
 </p>
 <p align="left">
   <img src="https://github.com/MertSaygili/bluetooth_rescue_app/assets/74828364/636bd286-bb44-44c9-9263-89e8abeee44d" height = "600" width = "33%"></img>
