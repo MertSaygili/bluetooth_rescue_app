@@ -61,7 +61,8 @@ Biz bu uygulamayı test ederken elimizdeki arduino cihazına HC-05, ve HC-06 mod
 
 ## KULLANILAN TEKNOLOJİLER
 <p align="center">
-  <img height="50" src="https://user-images.githubusercontent.com/25181517/185062810-7ee0c3d2-17f2-4a98-9d8a-a9576947692b.png"> 
-  <img height="50" src="https://user-images.githubusercontent.com/25181517/192108895-20dc3343-43e3-4a54-a90e-13a4abbc57b9.png">
+  <img height="50" src="aassets/185062810-7ee0c3d2-17f2-4a98-9d8a-a9576947692b.png"> 
+  <img height="50" src="aassets/192108895-20dc3343-43e3-4a54-a90e-13a4abbc57b9.png">
+  <img height="50" src="aassets/room_logo.png">
 </p>
 
