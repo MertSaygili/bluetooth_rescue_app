@@ -1,5 +1,6 @@
 package com.plcoding.bluetoothchat.presentation.view_models.bluetooth_view_model
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 import com.plcoding.bluetoothchat.entities.Message
 import com.plcoding.bluetoothchat.util.constants.Strings
+import com.plcoding.bluetoothchat.util.time.Time
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
@@ -52,7 +54,7 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
                 val bluetoothMessages = arrayListOf<BluetoothMessage>();
                 for(item:Message in messages){
                     if(item.isMe != null && item.content != null && item.sender != null){
-                        val bluetoothMessage = BluetoothMessage(message=item.content, senderName = item.sender, isFromLocalUser = item.isMe)
+                        val bluetoothMessage = BluetoothMessage(message=item.content, senderName = item.sender, isFromLocalUser = item.isMe, sendDate = item.time!!)
                         bluetoothMessages.add(bluetoothMessage);
                     }
 
@@ -97,20 +99,13 @@ class BluetoothViewModel @Inject constructor(private val bluetoothController: Bl
     // sends message to other device
     fun sendMessage(message: String) {
 
-        // content
-        Log.d("message",message);
-        // device mac address
-        Log.d("device",this.device?.address.toString());
-
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-        val currentDate = sdf.format(Date())
-
+        val currentDate = Time().getCurrentTimeForMessage()
         val messageDao = this.db.messageDao()
         val newMessage = Message(content=message,sender=this.device?.address.toString(),time=currentDate,isMe=true)
         messageDao.insertAll(newMessage)
 
         val messages: List<Message> = messageDao.getMessagesBySender(device?.address.toString())
-        Log.d("Omer",messages.toString())
+        Log.d("Success",messages.toString())
 
         viewModelScope.launch {
             val bluetoothMessage = bluetoothController.trySendMessage(message)

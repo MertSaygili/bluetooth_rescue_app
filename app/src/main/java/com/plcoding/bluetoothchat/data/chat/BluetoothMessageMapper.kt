@@ -10,8 +10,8 @@ fun String.toByteArray() : ByteArray{
     return this.encodeToByteArray()
 }
 
-fun String.toBluetoothMessage(isFromLocalUser: Boolean) : BluetoothMessage {
+fun String.toBluetoothMessage(isFromLocalUser: Boolean, sendDate: String) : BluetoothMessage {
     val senderName = substringBeforeLast("#")
     val message = substringAfter("#")
-    return BluetoothMessage(senderName = senderName, message = message, isFromLocalUser =  isFromLocalUser)
+    return BluetoothMessage(senderName = senderName, message = message, isFromLocalUser =  isFromLocalUser, sendDate = sendDate)
 }

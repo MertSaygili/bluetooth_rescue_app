@@ -10,6 +10,7 @@ import com.plcoding.bluetoothchat.domain.chat.BluetoothController
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDeviceDomain
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 import com.plcoding.bluetoothchat.domain.chat.ConnectionResult
+import com.plcoding.bluetoothchat.util.time.Time
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -182,7 +183,8 @@ class AndroidBluetoothController(private val context: Context): BluetoothControl
         val bluetoothMessage = BluetoothMessage(
             message = message,
             senderName = bluetoothAdapter?.name ?: "Unknown name",
-            isFromLocalUser = true
+            isFromLocalUser = true,
+            sendDate = Time().getCurrentTimeForMessage()
         )
 
         dataTransferService?.sendMessage(bluetoothMessage.toByteArray())

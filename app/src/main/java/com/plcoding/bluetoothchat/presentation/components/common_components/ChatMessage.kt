@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,9 +58,9 @@ fun ChatMessage(message: BluetoothMessage, modifier: Modifier = Modifier ){
             verticalAlignment = Alignment.Bottom
         ){
             Text(
-                text = Time().getCurrentTimeForMessage(),
+                text = message.sendDate,
                 fontSize = 8.sp,
-                color = DarkWhite,
+                color = Color.Black,
                 textAlign = TextAlign.End
             )
         }
@@ -75,7 +76,8 @@ fun preview() {
             message = BluetoothMessage(
                 message = "Hello World!",
                 senderName = "Pixel 6",
-                isFromLocalUser = false
+                isFromLocalUser = false,
+                sendDate = Time().getCurrentTimeForMessage()
             )
         )
     }

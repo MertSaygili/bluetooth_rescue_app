@@ -3,6 +3,7 @@ package com.plcoding.bluetoothchat.data.chat
 import android.bluetooth.BluetoothSocket
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothMessage
 import com.plcoding.bluetoothchat.domain.chat.TransferFailedException
+import com.plcoding.bluetoothchat.util.time.Time
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -30,7 +31,8 @@ class BluetoothDataTransferService(
                     buffer.decodeToString(
                         endIndex = byteCount
                     ).toBluetoothMessage(
-                        isFromLocalUser = false
+                        isFromLocalUser = false,
+                        sendDate = Time().getCurrentTimeForMessage()
                     )
                 )
             }
