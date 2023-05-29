@@ -14,7 +14,7 @@ Biz bu uygulamayı test ederken elimizdeki arduino cihazına HC-05, ve HC-06 mod
 - Mesajlaşmak isteyen ikinci cihaz ise sunucu açmış olan cihaza bağlan butonuna basarak bağlanır.
 - Cihazlar arası bağlantı başarıyla sağlanırsa kullanıcılar mesajlaşma ekranına yönlendirilir.
 - Mesajlaşma ekranına gelmiş kullanıcılar bağlantı korunduğu sürece birbiriyle mesajlaşabilirler. Bağlantı bozulduğunda kullanıcıya hata verilir ve önceki sayfaya yönlendirilir.
-- Kullanıcılar arası mesajlar telefonun içerisine kayıt edilir. 
+- Kullanıcılar arası mesajlar telefonun içerisine kayıt edilir. Cihazlar arası bağlantı tekrar kurulursa önceki yazışmalar çekilerek kullanıcıya gösterilir.
 
 <p align="center">
   <img src="aassets/6f469973-31c4-44eb-ba87-f3a021f7ba2c.jpg" height = "600" width = "30%"></img>
