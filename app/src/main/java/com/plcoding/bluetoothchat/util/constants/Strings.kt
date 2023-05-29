@@ -25,6 +25,9 @@ class Strings {
 
 class MACAddresses{
     companion object{
-        var macAddressOfArduinos = mutableListOf("00:22:09:01:3D:AF", "00:19:10:08:39:47")
+        var macAddressOfArduinos = mutableListOf(
+            "00:22:09:01:3D:AF",
+            "00:19:10:08:39:47"
+        )
     }
 }

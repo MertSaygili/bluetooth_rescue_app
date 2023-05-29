@@ -15,5 +15,5 @@ interface SOSMessageController {
     fun startDiscovery()
     fun closeSocketConnection()
     fun connectToDevice(device: BluetoothDevice)
-    fun sendLocation(location: String)
+    fun sendLocation(location: String) : Boolean
 }

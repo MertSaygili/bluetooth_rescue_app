@@ -2,6 +2,7 @@ package com.plcoding.bluetoothchat.presentation.components.screen
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import com.plcoding.bluetoothchat.presentation.components.common_components.dial
 import com.plcoding.bluetoothchat.presentation.components.common_components.dialogs.ShowArduinoDevicesDialog
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 import com.plcoding.bluetoothchat.presentation.view_models.sos_view_model.SOSUiState
+import java.util.logging.Handler
 import kotlin.reflect.KFunction1
 import kotlin.reflect.KFunction2
 
@@ -31,7 +33,6 @@ import kotlin.reflect.KFunction2
 @Composable
 fun HomeScreen(
     navController: NavController,
-    fusedLocationClient: FusedLocationProviderClient,
     searchDevice: () -> Unit,
     isSearchingDevice: Boolean,
     showArduinoDevices: Boolean,
@@ -83,17 +84,6 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 CustomHorizontalButton(text = stringResource(id = R.string.send_SOS), colorId = R.color.error) {
-
-
-//                    val messageDao = db.messageDao()
-//                    val messages: List<Message> = messageDao.getAll()
-//
-//                    val message = Message(content="Selam",sender="Omer",isMe=true)
-//                    messageDao.insertAll(message)
-//                     messageDao.deleteAll()
-
-//                    Log.d("Omer",messages.toString())
-
                     when (PackageManager.PERMISSION_GRANTED) {
                         // if fine location has been granted before
                         ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {

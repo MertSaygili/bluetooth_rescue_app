@@ -14,8 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.io.OutputStream
 import java.util.*
 
 
@@ -34,6 +34,7 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
     private val _errors = MutableSharedFlow<String>()
     override val errors: SharedFlow<String> get() = _errors.asSharedFlow()
 
+    // if android phone find new device add them to devices list
     private val foundDeviceReceiver = FoundDeviceReceiver { device ->
         _foundDevices.update { devices ->
             val newDevice = device.toBluetoothDeviceDomain()
@@ -41,6 +42,7 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         }
     }
 
+    // for connecting to different device
     private val bluetoothStateReceiver =  BluetoothStateReceiver { isConnected, bluetoothDevice ->
         if(bluetoothAdapter?.bondedDevices?.contains(bluetoothDevice) == true){
             _isConnected.update { isConnected }
@@ -51,9 +53,11 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         }
     }
 
+    // bluetooth socket for communication between devices
     private var bluetoothSocket : BluetoothSocket? = null
 
     init {
+        // first updates paired devices then try to find new devices
         updatePairedDevices()
         context.registerReceiver(
             bluetoothStateReceiver,
@@ -65,7 +69,9 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         )
     }
 
+    // searches nearby devices
     override fun startDiscovery() {
+        // if device found
         context.registerReceiver(
             foundDeviceReceiver,
             IntentFilter(android.bluetooth.BluetoothDevice.ACTION_FOUND)
@@ -76,25 +82,32 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
         bluetoothAdapter?.startDiscovery()
     }
 
+    // for connecting android device to arduino device
+    // creates bluetooth socket for sendin message
     override fun connectToDevice(device: BluetoothDevice){
-        Log.d("Success", "before socket")
+//        Log.d("Success", "before socket")
+
+        // connecting socket
+        // takes device macAddress and SERVICE_UUID string
         bluetoothSocket = bluetoothAdapter
             ?.getRemoteDevice(device.address)
             ?.createRfcommSocketToServiceRecord((
-                UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+                UUID.fromString(SERVICE_UUID)
             ))
         stopDiscovery()
 
-        Log.d("Success", "after socket")
+//        Log.d("Success", "after socket")
 
 
+        // if bluetooth socket is not null, connect with device
+        // if bluetooth socket is null, close socket
         bluetoothSocket?.let { socket ->
             try {
                 socket.connect()
                 Log.d("Success", "Socket connected")
 
             } catch(e: IOException) {
-                socket.close()
+                closeSocketConnection()
                 Log.d("Success", e.message.toString())
             }
         }
@@ -102,45 +115,47 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
     }
 
 
+    // stops discovering nearby devices
     override fun stopDiscovery() {
         bluetoothAdapter?.cancelDiscovery()
     }
 
+    // closes bluetooth socket
     override fun closeSocketConnection() {
         bluetoothSocket?.close()
     }
 
-     override fun sendLocation (location: String) {
-        var outStream = bluetoothSocket?.outputStream
+    // sends location to arduino device
+     override fun sendLocation (location: String) : Boolean{
+        // gets bluetoothSocket output stream and assign yo outStream variable
+        val outStream : OutputStream?
+
         try {
             outStream = bluetoothSocket?.outputStream
         } catch (e: IOException) {
-            Log.d("Success", "Bug BEFORE Sending stuff", e)
+             Log.d("Success", "Bug BEFORE Sending stuff", e)
+            // error occur, probably connection error
+            return false
         }
+        // converts message (location) to byte array
         val msgBuffer = location.toByteArray()
 
-        try {
-            outStream?.write(msgBuffer)
-            bluetoothSocket?.close()
-        } catch (e: IOException) {
-            Log.d("Success", "Bug while sending stuff", e)
-        }
+         return try {
+             // sends location to arduino device
+             outStream?.write(msgBuffer)
+             Log.d("Success", "Location send")
+             true
+
+         } catch (e: IOException) {
+              Log.d("Success", "Bug while sending stuff", e)
+             // error occur, probably socket error
+             false
+         }
+         // message send successfully
 
     }
 
-//     suspend fun sendLocation(location: String): Boolean {
-//        return withContext(Dispatchers.IO) {
-//            try {
-//                bluetoothSocket?.outputStream?.write(location.toByteArray())
-//            } catch(e: IOException) {
-//                e.printStackTrace()
-//                return@withContext false
-//            }
-//            true
-//        }
-//    }
-
-
+    // update paired devices
     private fun updatePairedDevices() {
         bluetoothAdapter
             ?.bondedDevices
@@ -150,7 +165,8 @@ class SOSMessageBluetoothController(private val context: Context) : SOSMessageCo
             }
     }
 
+    // UUID for connect devices
     companion object{
-        const val SERVICE_UUID = "57dc2ee4-f48e-11ed-a05b-0242ac120003"
+        const val SERVICE_UUID = "00001101-0000-1000-8000-00805f9b34fb"
     }
 }

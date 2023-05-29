@@ -42,7 +42,6 @@ fun Navigation(context: Context) {
         composable(route = Strings.home_route_name){
             val sosViewModel = hiltViewModel<SOSViewModel>()
             val stateSOS by sosViewModel.state.collectAsState()
-            val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
             LaunchedEffect(key1 = stateSOS.errorMessage) {
                 stateSOS.errorMessage?.let{
@@ -52,13 +51,13 @@ fun Navigation(context: Context) {
 
             LaunchedEffect(key1 = stateSOS.notFindAnyDevice) {
                 if(stateSOS.notFindAnyDevice == true) {
-                    customToasts.customToast(context, Strings.notFindSOSDevice, FancyToast.DEFAULT)
+                    customToasts.customToast(context, Strings.notFindSOSDevice, FancyToast.ERROR)
                 }
             }
 
             LaunchedEffect(key1 = stateSOS.locationSend) {
                 if(stateSOS.locationSend){
-                    customToasts.customToast(context, Strings.locationSend, FancyToast.DEFAULT)
+                    customToasts.customToast(context, Strings.locationSend, FancyToast.SUCCESS)
                 }
             }
 
@@ -66,7 +65,6 @@ fun Navigation(context: Context) {
                 stateSOS.isLoading -> {
                     HomeScreen(
                         navController = navController,
-                        fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
                         isSearchingDevice = true,
                         showArduinoDevices = false,
@@ -80,7 +78,6 @@ fun Navigation(context: Context) {
 
                     HomeScreen(
                         navController = navController,
-                        fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
                         isSearchingDevice = false,
                         showArduinoDevices = true,
@@ -92,7 +89,6 @@ fun Navigation(context: Context) {
                 else -> {
                     HomeScreen(
                         navController = navController,
-                        fusedLocationClient = fusedLocationClient,
                         searchDevice = sosViewModel::searchDevice,
                         isSearchingDevice = false,
                         showArduinoDevices = false,

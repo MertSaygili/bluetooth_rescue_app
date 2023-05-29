@@ -1,19 +1,23 @@
 package com.plcoding.bluetoothchat.presentation.view_models.sos_view_model
 
+import android.content.Context
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.plcoding.bluetoothchat.domain.chat.SOSMessageController
 import com.plcoding.bluetoothchat.domain.chat.models.BluetoothDevice
 import com.plcoding.bluetoothchat.presentation.location_controller.LocationController
 import com.plcoding.bluetoothchat.util.constants.MACAddresses
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class SOSViewModel @Inject constructor(private val sosMessageController: SOSMessageController): ViewModel() {
+class SOSViewModel @Inject constructor(private val sosMessageController: SOSMessageController, @ApplicationContext application: Context): ViewModel() {
     // view model for SOS message
     // private val bluetoothController: BluetoothController
     private val _state = MutableStateFlow(SOSUiState())
@@ -23,20 +27,31 @@ class SOSViewModel @Inject constructor(private val sosMessageController: SOSMess
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(4000), _state.value)
 
+    private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application)
+    private var locationCoordinates : String = ""
+    lateinit var location : Unit
 
     private fun startDiscovery() {
+        // scans nearby devices
         sosMessageController.startDiscovery()
     }
 
     private fun stopDiscovery() {
+        // stops to scanning nearby devices
         sosMessageController.stopDiscovery()
     }
 
     fun searchDevice() {
-         _state.update { it.copy(isLoading = true) }
-         startDiscovery()
+        location = LocationController().getCurrentCoordinates(fusedLocationClient = fusedLocationClient) {location ->
+            locationCoordinates = "latitude = ${location?.latitude} - longitude = ${location?.longitude}!"
+        }
 
-         Handler().postDelayed(
+
+        // for show to loading screen, makes isLoading attribute true
+        _state.update { it.copy(isLoading = true) }
+        // scanning nearby devices to find arduino device
+        startDiscovery()
+        Handler().postDelayed(
              {
                  // will search nearby arduino devices for four seconds
                  val devices: List<BluetoothDevice> = filterBluetoothDevices(sosMessageController.foundDevices.value)
@@ -47,16 +62,31 @@ class SOSViewModel @Inject constructor(private val sosMessageController: SOSMess
 
                  check()
              }, 4000
-         )
-     }
+        )
+    }
 
     fun connectToDevice(device : BluetoothDevice) {
-        Log.d("Success", "before function call...")
+//        Log.d("Success", "before function call...")
         sosMessageController.connectToDevice(device = device)
-        sosMessageController.sendLocation("sss")
-//        Handler().postDelayed({
-//            sosMessageController.closeSocketConnection()
-//        }, 2000)
+
+        Log.d("Success", "last = $locationCoordinates")
+        // message send
+        if(sosMessageController.sendLocation(location = locationCoordinates)) {
+            // make location send attribute true
+            _state.update { it.copy(
+                locationSend = true
+            ) }
+        }
+        // error occur while sending location
+        else{
+            _state.update { it.copy(
+                errorMessage = "Error occur"
+            ) }
+        }
+        // wait 2 second then close socket
+        Handler().postDelayed({
+            sosMessageController.closeSocketConnection()
+        }, 2000)
 
     }
 
