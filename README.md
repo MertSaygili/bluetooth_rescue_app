@@ -58,6 +58,7 @@ Biz bu uygulamayı test ederken elimizdeki arduino cihazına HC-05, ve HC-06 mod
 - https://github.com/philipplackner/BluetoothChat/tree/Part3-DataTransfer
 - https://developer.android.com/guide/topics/connectivity/bluetooth
 - https://developer.android.com/reference/android/location/Location
+- https://developer.android.com/training/data-storage/room
 
 ## KULLANILAN TEKNOLOJİLER
 <p align="center">
