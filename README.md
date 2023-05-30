@@ -31,7 +31,7 @@ Biz bu uygulamayı test ederken elimizdeki arduino cihazına HC-05, ve HC-06 mod
 - Butona ilk defa basıldığında kullanıcıdan konum izinleri istenir ve telefon içinden konumun açık olması istenir. Bu iki izin olmadan yardım mesajı gönderilemez.
 - Çevredeki arduino cihazlar 4 saniye boyunca taranır. 4 saniye içerisinde bulunan cihazlar kullanıcıya gösterilir.
 - Cihazlara yardım mesajı gönderilebilmesi için kullanıcının cihazlarla bağlantı kurmuş olması gerekmektedir. Bağlantı kurma işlemi ayarlardan yapılır.
-- Kullanıcı "konum gönder" e basınca arduino cihaza mesaj kullanıcının kordinatları gönderilir. 
+- Kullanıcı "konum gönder" e basınca arduino cihaza mesaj olarak kullanıcının kordinatları gönderilir. 
 - Konum başarıyla arduionaya gönderildiğinde kullanıcıya mesaj gösterilir, hatayla karşılaşılırsa hata gösterilir. 
 
 <p align="center">
